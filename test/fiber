@@ -1,0 +1,43 @@
+cjw@cjw-Magic:~/codespace/mycppserver/bin$ ./test_fiber
+2024-06-20 16:57:22 [6ms]	5578	test_fiber	0	[INFO]	[root]	/log.cpp:695	on log config changed
+2024-06-20 16:57:22 [6ms]	5578	test_fiber	0	[INFO]	[system]	/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/log.yml ok
+2024-06-20 16:57:22 [7ms]	5578	test_fiber	0	[INFO]	[system]	/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/system.yml ok
+2024-06-20 16:57:22 	5578	main_thread	0	[INFO]	[root]	tests/test_fiber.cc:70	main begin
+2024-06-20 16:57:22 	5579	thread_0	0	[INFO]	[root]	tests/test_fiber.cc:30	test_fiber begin
+2024-06-20 16:57:22 	5579	thread_0	0	[INFO]	[root]	tests/test_fiber.cc:36	use_count:1
+2024-06-20 16:57:22 	5579	thread_0	0	[INFO]	[root]	tests/test_fiber.cc:38	before test_fiber resume
+2024-06-20 16:57:22 	5579	thread_0	1	[INFO]	[root]	tests/test_fiber.cc:19	run_in_fiber begin
+2024-06-20 16:57:22 	5579	thread_0	1	[INFO]	[root]	tests/test_fiber.cc:21	before run_in_fiber yield
+2024-06-20 16:57:22 	5579	thread_0	0	[INFO]	[root]	tests/test_fiber.cc:40	after test_fiber resume
+2024-06-20 16:57:22 	5579	thread_0	0	[INFO]	[root]	tests/test_fiber.cc:47	use_count:3
+2024-06-20 16:57:22 	2024-06-20 16:57:22 5580		5579thread_1		0	thread_0	[0	INFO[]INFO	][	[rootroot]]		tests/test_fiber.cctests/test_fiber.cc::3049		fiber status: 0
+2024-06-20 16:57:22 	5579	thread_0	test_fiber begin0	[INFO]	
+[root]	tests/test_fiber.cc:51	before test_fiber resume again
+2024-06-20 16:57:22 	5579	thread_0	1	[INFO]	[root]	tests/test_fiber.cc:23	after run_in_fiber yield
+2024-06-20 16:57:22 	5580	thread_1	2	[INFO]	[root]	2024-06-20 16:57:22tests/test_fiber.cc :	365579		thread_0use_count:1	1
+2024-06-20 16:57:22 	5580	thread_1	2	[INFO]	[root]	tests/test_fiber.cc:38	before test_fiber resume
+2024-06-20 16:57:22 	5580	thread_1	3	[INFO]	[root]	tests/test_fiber.cc:19	run_in_fiber begin
+	2024-06-20 16:57:22 	[5580	thread_1INFO	]3		[[INFOroot]]	[	root]	tests/test_fiber.cc:tests/test_fiber.cc21	:before run_in_fiber yield
+2024-06-20 16:57:22 	255580	thread_1		2	[INFO]	[run_in_fiber endroot]	
+tests/test_fiber.cc:40	after test_fiber resume
+2024-06-20 16:57:222024-06-20 16:57:22  		5580	thread_15579		2thread_0		0[	INFO[]INFO]		[[rootroot]]		tests/test_fiber.cctests/test_fiber.cc::5347		after test_fiber resume againuse_count:3
+2024-06-20 16:57:22 	5580	thread_1	2	[INFO]	[root]	tests/test_fiber.cc:49	fiber status: 0
+2024-06-20 16:57:22 	5580	thread_1	2	[INFO]	[root]	tests/test_fiber.cc:51	before test_fiber resume again
+2024-06-20 16:57:22 	5580
+	thread_1	3	[INFO]	[root]	tests/test_fiber.cc:23	after run_in_fiber yield
+2024-06-20 16:57:22 	5579	thread_0	0	2024-06-20 16:57:22 [	INFO5580]		thread_1	[3root	][	INFO]	[tests/test_fiber.ccroot]:	55tests/test_fiber.cc	:25	use_count:1run_in_fiber end
+
+2024-06-20 16:57:22 	5580	thread_1	2	[INFO]	[root]	tests/test_fiber.cc:53	after test_fiber resume again
+2024-06-20 16:57:22 	2024-06-20 16:57:225579 		5580thread_0		thread_10		2	[[INFOINFO]]		[[rootroot]]		tests/test_fiber.cc:tests/test_fiber.cc55:56	use_count:1fiber status: 2
+
+2024-06-20 16:57:22 	5580	thread_1	2	[INFO]	[root]	tests/test_fiber.cc:56	fiber status: 2
+2024-06-20 16:57:22 	5579	thread_0	1	[INFO]	[root]	tests/test_fiber.cc:14	run_in_fiber2 begin
+2024-06-20 16:57:22 	2024-06-20 16:57:225580 		thread_15579		thread_0	31		[[INFOINFO]	][	[rootroot]]		tests/test_fiber.cctests/test_fiber.cc::1514	run_in_fiber2 endrun_in_fiber2 begin
+
+2024-06-20 16:57:22 	5579	thread_0	0	[INFO]	[root]	tests/test_fiber.cc:61	use_count:1
+2024-06-20 16:57:22 	5580	thread_12024-06-20 16:57:22	 	35579	[	INFO]	thread_0[root	]	0	tests/test_fiber.cc[:INFO]15	[	root]run_in_fiber2 end	
+tests/test_fiber.cc:62	test_fiber end
+2024-06-20 16:57:22 	5580	thread_1	2	[INFO]	[root]	tests/test_fiber.cc:61	use_count:1
+2024-06-20 16:57:22 	5580	thread_1	2	[INFO]	[root]	tests/test_fiber.cc:62	test_fiber end
+2024-06-20 16:57:22 	5578	main_thread	0	[INFO]	[root]	tests/test_fiber.cc:82	main end
+

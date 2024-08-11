@@ -1,0 +1,17 @@
+cjw@cjw-Magic:~/codespace/mycppserver/bin$ ./test_socket_tcp_server 
+2024-06-20 16:58:04 [7ms]	5585	test_socket_tcp	0	[INFO]	[root]	/log.cpp:695	on log config changed
+2024-06-20 16:58:04 [7ms]	5585	test_socket_tcp	0	[INFO]	[system]	/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/log.yml ok
+2024-06-20 16:58:04 [7ms]	5585	test_socket_tcp	0	[INFO]	[system]	/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/system.yml ok
+2024-06-20 16:58:04 	5586	IOManager_0	5	[INFO]	[root]	tests/test_socket_tcp_server.cc:23	bind success
+2024-06-20 16:58:04 	5586	IOManager_0	5	[INFO]	[root]	tests/test_socket_tcp_server.cc:28	[Socket sock=6 is_connected=0 family=2 type=1 protocol=0 local_address=0.0.0.0:12345]
+2024-06-20 16:58:04 	5586	IOManager_0	5	[INFO]	[root]	tests/test_socket_tcp_server.cc:29	listening...
+2024-06-20 16:58:18 	5586	IOManager_0	5	[INFO]	[root]	tests/test_socket_tcp_server.cc:34	new client: [Socket sock=7 is_connected=1 family=2 type=1 protocol=0 local_address=127.0.0.1:12345 remote_address=127.0.0.1:44660]
+
+
+cjw@cjw-Magic:~/codespace/mycppserver/bin$ ./test_socket_tcp_client 
+2024-06-20 16:58:18 [6ms]	5594	test_socket_tcp	0	[INFO]	[root]	/log.cpp:695	on log config changed
+2024-06-20 16:58:18 [6ms]	5594	test_socket_tcp	0	[INFO]	[system]	/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/log.yml ok
+2024-06-20 16:58:18 [6ms]	5594	test_socket_tcp	0	[INFO]	[system]	/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/system.yml ok
+2024-06-20 16:58:18 	5594	test_socket_tcp	3	[INFO]	[root]	tests/test_socket_tcp_client.cc:23	connect success, peer address: 0.0.0.0:12345
+2024-06-20 16:58:18 	5594	test_socket_tcp	3	[INFO]	[root]	tests/test_socket_tcp_client.cc:28	recv: hello world
+

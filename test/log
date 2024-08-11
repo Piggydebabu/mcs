@@ -1,0 +1,41 @@
+2024-06-20 16:56:52 [6ms]	5535	test_log	0	[INFO]	[root]	/log.cpp:695	on log config changed
+2024-06-20 16:56:52 [6ms]	5535	test_log	0	[INFO]	[system]/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/log.yml ok
+2024-06-20 16:56:52 [7ms]	5535	test_log	0	[INFO]	[system]/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/system.yml ok
+2024-06-20 16:56:52 	5535	test_log	0	[FATAL]	[root]	tests/test_log.cpp:18	fatal msg
+2024-06-20 16:56:52 	5535	test_log	0	[ERROR]	[root]	tests/test_log.cpp:19	err msg
+2024-06-20 16:56:52 	5535	test_log	0	[INFO]	[root]	tests/test_log.cpp:20	info msg
+2024-06-20 16:56:52 	5535	test_log	0	[FATAL]	[root]	tests/test_log.cpp:23	fatal tests/test_log.cpp:23
+2024-06-20 16:56:52 	5535	test_log	0	[ERROR]	[root]	tests/test_log.cpp:24	err tests/test_log.cpp:24
+2024-06-20 16:56:52 	5535	test_log	0	[INFO]	[root]	tests/test_log.cpp:25	info tests/test_log.cpp:25
+2024-06-20 16:56:53 	5535	brand_new_threa	0	[FATAL]	[root]	tests/test_log.cpp:32	fatal msg
+2024-06-20 16:56:53 	5535	brand_new_threa	0	[ERROR]	[root]	tests/test_log.cpp:33	err msg
+2024-06-20 16:56:53 	5535	brand_new_threa	0	[FATAL]	[root]	tests/test_log.cpp:40	fatal msg
+2024-06-20 16:56:53 	5535	brand_new_threa	0	[ERROR]	[root]	tests/test_log.cpp:41	err msg
+2024-06-20 16:56:53:0ms	ERROR	test_logger	tests/test_log.cpp:52 err msg
+2024-06-20 16:56:53 	5535	brand_new_threa	0	[INFO]	[root]	tests/test_log.cpp:57	logger config:- name: http
+  level: DEBUG
+  appenders:
+    - type: StdoutLogAppender
+      pattern: "%f:%l%T%m%n"
+- name: root
+  level: INFO
+  appenders:
+    - type: StdoutLogAppender
+      pattern: "%d{%Y-%m-%d %H:%M:%S} %T%t%T%N%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"
+    - type: FileLogAppender
+      file: ./log.txt
+      pattern: "%d{%Y-%m-%d %H:%M:%S} [%rms]%T%t%T%N%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"
+- name: system
+  level: INFO
+  appenders:
+    - type: StdoutLogAppender
+      pattern: "%d{%Y-%m-%d %H:%M:%S} [%rms]%T%t%T%N%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"
+    - type: FileLogAppender
+      file: /root/sylar-from-scratch/system.txt
+      pattern: "%d{%Y-%m-%d %H:%M:%S} [%rms]%T%t%T%N%T%F%T[%p]%T[%c]%T%f:%l%T%m%n"
+- name: test_logger
+  level: WARN
+  appenders:
+    - type: StdoutLogAppender
+      pattern: "%d:%rms%T%p%T%c%T%f:%l %m%n"
+

@@ -1,0 +1,12 @@
+cjw@cjw-Magic:~/codespace/mycppserver/bin$ ./test_thread 
+2024-06-20 16:57:10 [5ms]	5573	test_thread	0	[INFO]	[root]	/log.cpp:695	on log config changed
+2024-06-20 16:57:10 [7ms]	5573	test_thread	0	[INFO]	[system]	/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/log.yml ok
+2024-06-20 16:57:10 [7ms]	5573	test_thread	0	[INFO]	[system]	/config.cc:95	LoadConfFile file=/home/cjw/codespace/mycppserver/bin/conf/system.yml ok
+2024-06-20 16:57:10 	5574	thread_0	0	[INFO]	[root]	tests/test_thread.cc:15	name:thread_0 this.name:thread_0 thread name:thread_0 id:5574 this.id:5574
+2024-06-20 16:57:10 	5574	thread_0	0	[INFO]	[root]	tests/test_thread.cc:20	arg: 123456
+2024-06-20 16:57:10 	5575	thread_1	0	[INFO]	[root]	tests/test_thread.cc:15	name:thread_1 this.name:thread_1 thread name:thread_1 id:5575 this.id:5575
+2024-06-20 16:57:10 	5575	thread_1	0	[INFO]	[root]	tests/test_thread.cc:20	arg: 123456
+2024-06-20 16:57:10 	5576	thread_2	0	[INFO]	[root]	tests/test_thread.cc:15	name:thread_2 this.name:thread_2 thread name:thread_2 id:5576 this.id:5576
+2024-06-20 16:57:10 	5576	thread_2	0	[INFO]	[root]	tests/test_thread.cc:20	arg: 123456
+2024-06-20 16:57:10 	5573	test_thread	0	[INFO]	[root]	tests/test_thread.cc:43	count = 30000
+
