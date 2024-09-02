@@ -26,7 +26,6 @@ pid_t GetThreadId();
 
 /**
  * @brief 获取协程id
- * @todo 桩函数，暂时返回0，等协程模块完善后再返回实际值
  */
 uint64_t GetFiberId();
 

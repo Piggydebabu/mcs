@@ -79,6 +79,28 @@ struct timer_info {
     int cancelled = 0;
 };
 
+// 模板函数,用于处理IO操作,并在需要时进行超时处理和事件管理
+/**
+ * @brief 执行具有可选hook和超时管理的 I/O 操作。
+ *
+ * 此函数检查hook是否启用，并获取给定文件描述符的上下文。
+ * 如果上下文指示文件描述符已关闭或是非阻塞套接字，则将直接调用
+ * 提供的函数。在出现 EAGAIN 错误的情况下，它会管理一个定时器和
+ * 事件，以在超时后重试操作。
+ *
+ * @tparam OriginFun 要执行的 I/O 操作的函数类型。
+ * @tparam Args 传递给 I/O 函数的参数类型。
+ *
+ * @param fd 要执行 I/O 操作的文件描述符。
+ * @param fun 要执行的 I/O 操作的函数。
+ * @param hook_fun_name 用于日志记录的钩子函数名称。
+ * @param event 要监视的事件类型（例如：可读、可写）。
+ * @param timeout_so 操作的超时设置。
+ * @param args 传递给 I/O 函数的其他参数。
+ *
+ * @return ssize_t 成功时返回读取或写入的字节数，失败时返回 -1。
+ *         失败时，errno 将被设置为相应的错误代码。
+ */
 template<typename OriginFun, typename... Args>
 static ssize_t do_io(int fd, OriginFun fun, const char* hook_fun_name,
         uint32_t event, int timeout_so, Args&&... args) {

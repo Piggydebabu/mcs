@@ -38,7 +38,7 @@ public:
     /**
      * @brief 通过host地址返回对应条件的所有Address
      * @param[out] result 保存满足条件的Address
-     * @param[in] host 域名,服务器名等.举例: www.mcs.top[:80] (方括号为可选内容)
+     * @param[in] host 域名,服务器名等.举例: www.baidu.com[:80] (方括号为可选内容)
      * @param[in] family 协议族(AF_INT, AF_INT6, AF_UNIX)
      * @param[in] type socketl类型SOCK_STREAM、SOCK_DGRAM 等
      * @param[in] protocol 协议,IPPROTO_TCP、IPPROTO_UDP 等
@@ -58,7 +58,7 @@ public:
                                   int family = AF_INET, int type = 0, int protocol = 0);
     /**
      * @brief 通过host地址返回对应条件的任意IPAddress
-     * @param[in] host 域名,服务器名等.举例: www.mcs.top[:80] (方括号为可选内容)
+     * @param[in] host 域名,服务器名等.举例: www.baidu.com[:80] (方括号为可选内容)
      * @param[in] family 协议族(AF_INT, AF_INT6, AF_UNIX)
      * @param[in] type socketl类型SOCK_STREAM、SOCK_DGRAM 等
      * @param[in] protocol 协议,IPPROTO_TCP、IPPROTO_UDP 等
@@ -144,7 +144,7 @@ public:
 
     /**
      * @brief 通过域名,IP,服务器名创建IPAddress
-     * @param[in] address 域名,IP,服务器名等.举例: www.mcs.top
+     * @param[in] address 域名,IP,服务器名等.举例: www.baidu.com
      * @param[in] port 端口号
      * @return 调用成功返回IPAddress,失败返回nullptr
      */
@@ -210,6 +210,9 @@ public:
      */
     IPv4Address(uint32_t address = INADDR_ANY, uint16_t port = 0);
 
+    // 返回指向const sockaddr* 的指针，无法修改sockaddr内容
+    // 后面的const表示该函数为常量成员函数,不会修改类中的任何变量
+    // override显式指出此函数覆盖了基类中的虚函数
     const sockaddr *getAddr() const override;
     sockaddr *getAddr() override;
     socklen_t getAddrLen() const override;
