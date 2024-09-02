@@ -2,8 +2,8 @@
  * @file noncopyable.h
  * @brief 不可拷贝对象封装
  */
-#ifndef __mcs_NONCOPYABLE_H__
-#define __mcs_NONCOPYABLE_H__
+#ifndef __MCS_NONCOPYABLE_H__
+#define __MCS_NONCOPYABLE_H__
 
 namespace mcs {
 

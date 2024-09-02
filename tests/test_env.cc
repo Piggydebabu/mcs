@@ -6,7 +6,7 @@
  */
 #include "mcs/mcs.h"
 
-mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 mcs::Env *g_env = mcs::EnvMgr::GetInstance();
 
@@ -26,18 +26,18 @@ int main(int argc, char *argv[]) {
         return false;
     }
 
-    mcs_LOG_INFO(g_logger)<< "exe: " << g_env->getExe();
-    mcs_LOG_INFO(g_logger) <<"cwd: " << g_env->getCwd();
-    mcs_LOG_INFO(g_logger) << "absoluth path of test: " << g_env->getAbsolutePath("test");
-    mcs_LOG_INFO(g_logger) << "conf path:" << g_env->getConfigPath();
+    MCS_LOG_INFO(g_logger)<< "exe: " << g_env->getExe();
+    MCS_LOG_INFO(g_logger) <<"cwd: " << g_env->getCwd();
+    MCS_LOG_INFO(g_logger) << "absoluth path of test: " << g_env->getAbsolutePath("test");
+    MCS_LOG_INFO(g_logger) << "conf path:" << g_env->getConfigPath();
 
     g_env->add("key1", "value1");
-    mcs_LOG_INFO(g_logger) << "key1: " << g_env->get("key1");
+    MCS_LOG_INFO(g_logger) << "key1: " << g_env->get("key1");
 
     g_env->setEnv("key2", "value2");
-    mcs_LOG_INFO(g_logger) << "key2: " << g_env->getEnv("key2");
+    MCS_LOG_INFO(g_logger) << "key2: " << g_env->getEnv("key2");
 
-    mcs_LOG_INFO(g_logger) << g_env->getEnv("PATH");
+    MCS_LOG_INFO(g_logger) << g_env->getEnv("PATH");
 
     return 0;
 }

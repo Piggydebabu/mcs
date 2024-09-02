@@ -12,13 +12,13 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 
-static mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+static mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 /**
  * @brief 测试sleep被hook之后的浆果
  */
 void test_sleep() {
-    mcs_LOG_INFO(g_logger) << "test_sleep begin";
+    MCS_LOG_INFO(g_logger) << "test_sleep begin";
     mcs::IOManager iom;
     
     /**
@@ -27,15 +27,15 @@ void test_sleep() {
      */
     iom.schedule([] {
         sleep(2);
-        mcs_LOG_INFO(g_logger) << "sleep 2";
+        MCS_LOG_INFO(g_logger) << "sleep 2";
     });
 
     iom.schedule([] {
         sleep(3);
-        mcs_LOG_INFO(g_logger) << "sleep 3";
+        MCS_LOG_INFO(g_logger) << "sleep 3";
     });
 
-    mcs_LOG_INFO(g_logger) << "test_sleep end";
+    MCS_LOG_INFO(g_logger) << "test_sleep end";
 }
 
 /**
@@ -50,9 +50,9 @@ void test_sock() {
     addr.sin_port = htons(80);
     inet_pton(AF_INET, "36.152.44.96", &addr.sin_addr.s_addr);
 
-    mcs_LOG_INFO(g_logger) << "begin connect";
+    MCS_LOG_INFO(g_logger) << "begin connect";
     int rt = connect(sock, (const sockaddr*)&addr, sizeof(addr));
-    mcs_LOG_INFO(g_logger) << "connect rt=" << rt << " errno=" << errno;
+    MCS_LOG_INFO(g_logger) << "connect rt=" << rt << " errno=" << errno;
 
     if(rt) {
         return;
@@ -60,7 +60,7 @@ void test_sock() {
 
     const char data[] = "GET / HTTP/1.0\r\n\r\n";
     rt = send(sock, data, sizeof(data), 0);
-    mcs_LOG_INFO(g_logger) << "send rt=" << rt << " errno=" << errno;
+    MCS_LOG_INFO(g_logger) << "send rt=" << rt << " errno=" << errno;
 
     if(rt <= 0) {
         return;
@@ -70,14 +70,14 @@ void test_sock() {
     buff.resize(4096);
 
     rt = recv(sock, &buff[0], buff.size(), 0);
-    mcs_LOG_INFO(g_logger) << "recv rt=" << rt << " errno=" << errno;
+    MCS_LOG_INFO(g_logger) << "recv rt=" << rt << " errno=" << errno;
 
     if(rt <= 0) {
         return;
     }
 
     buff.resize(rt);
-    mcs_LOG_INFO(g_logger) << buff;
+    MCS_LOG_INFO(g_logger) << buff;
 }
 
 int main(int argc, char *argv[]) {
@@ -90,6 +90,6 @@ int main(int argc, char *argv[]) {
     mcs::IOManager iom;
     iom.schedule(test_sock);
 
-    mcs_LOG_INFO(g_logger) << "main end";
+    MCS_LOG_INFO(g_logger) << "main end";
     return 0;
 }

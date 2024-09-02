@@ -3,8 +3,8 @@
  * @brief HTTP服务器封装
  */
 
-#ifndef __mcs_HTTP_HTTP_SERVER_H__
-#define __mcs_HTTP_HTTP_SERVER_H__
+#ifndef __MCS_HTTP_HTTP_SERVER_H__
+#define __MCS_HTTP_HTTP_SERVER_H__
 
 #include "../tcp_server.h"
 #include "http_session.h"

@@ -7,15 +7,15 @@
 
 #include "mcs/mcs.h"
 
-static mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+static mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 mcs::Timer::ptr timer;
 int server_main(int argc, char **argv) {
-    mcs_LOG_INFO(g_logger) << mcs::ProcessInfoMgr::GetInstance()->toString();
+    MCS_LOG_INFO(g_logger) << mcs::ProcessInfoMgr::GetInstance()->toString();
     mcs::IOManager iom(1);
     timer = iom.addTimer(
         1000, []() {
-            mcs_LOG_INFO(g_logger) << "onTimer";
+            MCS_LOG_INFO(g_logger) << "onTimer";
             static int count = 0;
             if (++count > 10) {
                 exit(1);

@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <mcs/mcs.h>
 
-static mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+static mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 void test() {
 /* 
@@ -29,10 +29,10 @@ void test() {
         ba->setPosition(0);                                        \
         for (size_t i = 0; i < vec.size(); ++i) {                  \
             type v = ba->read_fun();                               \
-            mcs_ASSERT(v == vec[i]);                             \
+            MCS_ASSERT(v == vec[i]);                             \
         }                                                          \
-        mcs_ASSERT(ba->getReadSize() == 0);                      \
-        mcs_LOG_INFO(g_logger) << #write_fun "/" #read_fun       \
+        MCS_ASSERT(ba->getReadSize() == 0);                      \
+        MCS_LOG_INFO(g_logger) << #write_fun "/" #read_fun       \
                                                " (" #type ") len=" \
                                  << len                            \
                                  << " base_len=" << base_len       \
@@ -72,22 +72,22 @@ void test() {
         ba->setPosition(0);                                                           \
         for (size_t i = 0; i < vec.size(); ++i) {                                     \
             type v = ba->read_fun();                                                  \
-            mcs_ASSERT(v == vec[i]);                                                \
+            MCS_ASSERT(v == vec[i]);                                                \
         }                                                                             \
-        mcs_ASSERT(ba->getReadSize() == 0);                                         \
-        mcs_LOG_INFO(g_logger) << #write_fun "/" #read_fun                          \
+        MCS_ASSERT(ba->getReadSize() == 0);                                         \
+        MCS_LOG_INFO(g_logger) << #write_fun "/" #read_fun                          \
                                                " (" #type ") len="                    \
                                  << len                                               \
                                  << " base_len=" << base_len                          \
                                  << " size=" << ba->getSize();                        \
         ba->setPosition(0);                                                           \
-        mcs_ASSERT(ba->writeToFile("/tmp/" #type "_" #len "-" #read_fun ".dat"));   \
+        MCS_ASSERT(ba->writeToFile("/tmp/" #type "_" #len "-" #read_fun ".dat"));   \
         mcs::ByteArray::ptr ba2(new mcs::ByteArray(base_len * 2));                \
-        mcs_ASSERT(ba2->readFromFile("/tmp/" #type "_" #len "-" #read_fun ".dat")); \
+        MCS_ASSERT(ba2->readFromFile("/tmp/" #type "_" #len "-" #read_fun ".dat")); \
         ba2->setPosition(0);                                                          \
-        mcs_ASSERT(ba->toString() == ba2->toString());                              \
-        mcs_ASSERT(ba->getPosition() == 0);                                         \
-        mcs_ASSERT(ba2->getPosition() == 0);                                        \
+        MCS_ASSERT(ba->toString() == ba2->toString());                              \
+        MCS_ASSERT(ba->getPosition() == 0);                                         \
+        MCS_ASSERT(ba2->getPosition() == 0);                                        \
     }
     XX(int8_t, 100, writeFint8, readFint8, 1);
     XX(uint8_t, 100, writeFuint8, readFuint8, 1);
@@ -123,10 +123,10 @@ void test() {
         ba->setPosition(0);                                       \
         for (size_t i = 0; i < vec.size(); ++i) {                 \
             std::string v = ba->read_fun();                       \
-            mcs_ASSERT(v == vec[i]);                            \
+            MCS_ASSERT(v == vec[i]);                            \
         }                                                         \
-        mcs_ASSERT(ba->getReadSize() == 0);                     \
-        mcs_LOG_INFO(g_logger) << #write_fun "/" #read_fun      \
+        MCS_ASSERT(ba->getReadSize() == 0);                     \
+        MCS_LOG_INFO(g_logger) << #write_fun "/" #read_fun      \
                                                " ("               \
                                                "string"           \
                                                ") len="           \

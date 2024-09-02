@@ -9,15 +9,15 @@
 #include <string>
 #include <vector>
 
-mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 void run_in_fiber2() {
-    mcs_LOG_INFO(g_logger) << "run_in_fiber2 begin";
-    mcs_LOG_INFO(g_logger) << "run_in_fiber2 end";
+    MCS_LOG_INFO(g_logger) << "run_in_fiber2 begin";
+    MCS_LOG_INFO(g_logger) << "run_in_fiber2 end";
 }
 
 void run_in_fiber() {
-    mcs_LOG_INFO(g_logger) << "run_in_fiber begin";
+    MCS_LOG_INFO(g_logger) << "run_in_fiber begin";
 
     /**
      * 非对称协程，子协程不能创建并运行新的子协程，下面的操作是有问题的，
@@ -26,20 +26,20 @@ void run_in_fiber() {
     mcs::Fiber::ptr fiber(new mcs::Fiber(run_in_fiber2, 0, false));
     fiber->resume();
 
-    mcs_LOG_INFO(g_logger) << "run_in_fiber end";
+    MCS_LOG_INFO(g_logger) << "run_in_fiber end";
 }
 
 int main(int argc, char *argv[]) {
     mcs::EnvMgr::GetInstance()->init(argc, argv);
     mcs::Config::LoadFromConfDir(mcs::EnvMgr::GetInstance()->getConfigPath());
 
-    mcs_LOG_INFO(g_logger) << "main begin";
+    MCS_LOG_INFO(g_logger) << "main begin";
 
     mcs::Fiber::GetThis();
 
     mcs::Fiber::ptr fiber(new mcs::Fiber(run_in_fiber, 0, false));
     fiber->resume();
 
-    mcs_LOG_INFO(g_logger) << "main end";
+    MCS_LOG_INFO(g_logger) << "main end";
     return 0;
 }

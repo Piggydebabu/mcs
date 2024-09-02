@@ -4,7 +4,7 @@
 
 namespace mcs {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 static mcs::ConfigVar<uint64_t>::ptr g_tcp_server_read_timeout =
     mcs::Config::Lookup("tcp_server.read_timeout", (uint64_t)(60 * 1000 * 2),
@@ -39,14 +39,14 @@ bool TcpServer::bind(const std::vector<Address::ptr>& addrs
     for(auto& addr : addrs) {
         Socket::ptr sock = Socket::CreateTCP(addr);
         if(!sock->bind(addr)) {
-            mcs_LOG_ERROR(g_logger) << "bind fail errno="
+            MCS_LOG_ERROR(g_logger) << "bind fail errno="
                 << errno << " errstr=" << strerror(errno)
                 << " addr=[" << addr->toString() << "]";
             fails.push_back(addr);
             continue;
         }
         if(!sock->listen()) {
-            mcs_LOG_ERROR(g_logger) << "listen fail errno="
+            MCS_LOG_ERROR(g_logger) << "listen fail errno="
                 << errno << " errstr=" << strerror(errno)
                 << " addr=[" << addr->toString() << "]";
             fails.push_back(addr);
@@ -61,7 +61,7 @@ bool TcpServer::bind(const std::vector<Address::ptr>& addrs
     }
 
     for(auto& i : m_socks) {
-        mcs_LOG_INFO(g_logger) << "type=" << m_type
+        MCS_LOG_INFO(g_logger) << "type=" << m_type
             << " name=" << m_name
             << " server bind success: " << *i;
     }
@@ -76,7 +76,7 @@ void TcpServer::startAccept(Socket::ptr sock) {
             m_ioWorker->schedule(std::bind(&TcpServer::handleClient,
                         shared_from_this(), client));
         } else {
-            mcs_LOG_ERROR(g_logger) << "accept errno=" << errno
+            MCS_LOG_ERROR(g_logger) << "accept errno=" << errno
                 << " errstr=" << strerror(errno);
         }
     }
@@ -107,7 +107,7 @@ void TcpServer::stop() {
 }
 
 void TcpServer::handleClient(Socket::ptr client) {
-    mcs_LOG_INFO(g_logger) << "handleClient: " << *client;
+    MCS_LOG_INFO(g_logger) << "handleClient: " << *client;
 }
 
 std::string TcpServer::toString(const std::string& prefix) {

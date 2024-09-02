@@ -3,8 +3,8 @@
  * @brief 定时器封装
  * @author mcs.yin
  */
-#ifndef __mcs_TIMER_H__
-#define __mcs_TIMER_H__
+#ifndef __MCS_TIMER_H__
+#define __MCS_TIMER_H__
 
 #include <memory>
 #include <vector>

@@ -10,7 +10,7 @@
 
 namespace mcs {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 ByteArray::Node::Node(size_t s)
     :ptr(new char[s])
@@ -35,7 +35,7 @@ ByteArray::ByteArray(size_t base_size)
     ,m_position(0)
     ,m_capacity(base_size)
     ,m_size(0)
-    ,m_endian(mcs_BIG_ENDIAN)
+    ,m_endian(MCS_BIG_ENDIAN)
     ,m_root(new Node(base_size))
     ,m_cur(m_root) {
 }
@@ -50,14 +50,14 @@ ByteArray::~ByteArray() {
 }
 
 bool ByteArray::isLittleEndian() const {
-    return m_endian == mcs_LITTLE_ENDIAN;
+    return m_endian == MCS_LITTLE_ENDIAN;
 }
 
 void ByteArray::setIsLittleEndian(bool val) {
     if(val) {
-        m_endian = mcs_LITTLE_ENDIAN;
+        m_endian = MCS_LITTLE_ENDIAN;
     } else {
-        m_endian = mcs_BIG_ENDIAN;
+        m_endian = MCS_BIG_ENDIAN;
     }
 }
 
@@ -69,42 +69,42 @@ void ByteArray::writeFuint8 (uint8_t value) {
     write(&value, sizeof(value));
 }
 void ByteArray::writeFint16 (int16_t value) {
-    if(m_endian != mcs_BYTE_ORDER) {
+    if(m_endian != MCS_BYTE_ORDER) {
         value = byteswap(value);
     }
     write(&value, sizeof(value));
 }
 
 void ByteArray::writeFuint16(uint16_t value) {
-    if(m_endian != mcs_BYTE_ORDER) {
+    if(m_endian != MCS_BYTE_ORDER) {
         value = byteswap(value);
     }
     write(&value, sizeof(value));
 }
 
 void ByteArray::writeFint32 (int32_t value) {
-    if(m_endian != mcs_BYTE_ORDER) {
+    if(m_endian != MCS_BYTE_ORDER) {
         value = byteswap(value);
     }
     write(&value, sizeof(value));
 }
 
 void ByteArray::writeFuint32(uint32_t value) {
-    if(m_endian != mcs_BYTE_ORDER) {
+    if(m_endian != MCS_BYTE_ORDER) {
         value = byteswap(value);
     }
     write(&value, sizeof(value));
 }
 
 void ByteArray::writeFint64 (int64_t value) {
-    if(m_endian != mcs_BYTE_ORDER) {
+    if(m_endian != MCS_BYTE_ORDER) {
         value = byteswap(value);
     }
     write(&value, sizeof(value));
 }
 
 void ByteArray::writeFuint64(uint64_t value) {
-    if(m_endian != mcs_BYTE_ORDER) {
+    if(m_endian != MCS_BYTE_ORDER) {
         value = byteswap(value);
     }
     write(&value, sizeof(value));
@@ -216,7 +216,7 @@ uint8_t  ByteArray::readFuint8() {
 #define XX(type) \
     type v; \
     read(&v, sizeof(v)); \
-    if(m_endian == mcs_BYTE_ORDER) { \
+    if(m_endian == MCS_BYTE_ORDER) { \
         return v; \
     } else { \
         return byteswap(v); \
@@ -458,7 +458,7 @@ bool ByteArray::writeToFile(const std::string& name) const {
     std::ofstream ofs;
     ofs.open(name, std::ios::trunc | std::ios::binary);
     if(!ofs) {
-        mcs_LOG_ERROR(g_logger) << "writeToFile name=" << name
+        MCS_LOG_ERROR(g_logger) << "writeToFile name=" << name
             << " error , errno=" << errno << " errstr=" << strerror(errno);
         return false;
     }
@@ -483,7 +483,7 @@ bool ByteArray::readFromFile(const std::string& name) {
     std::ifstream ifs;
     ifs.open(name, std::ios::binary);
     if(!ifs) {
-        mcs_LOG_ERROR(g_logger) << "readFromFile name=" << name
+        MCS_LOG_ERROR(g_logger) << "readFromFile name=" << name
             << " error, errno=" << errno << " errstr=" << strerror(errno);
         return false;
     }

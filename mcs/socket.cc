@@ -8,7 +8,7 @@
 
 namespace mcs {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 Socket::ptr Socket::CreateTCP(mcs::Address::ptr address) {
     Socket::ptr sock(new Socket(address->getFamily(), TCP, 0));
@@ -101,7 +101,7 @@ void Socket::setRecvTimeout(int64_t v) {
 bool Socket::getOption(int level, int option, void *result, socklen_t *len) {
     int rt = getsockopt(m_sock, level, option, result, (socklen_t *)len);
     if (rt) {
-        mcs_LOG_DEBUG(g_logger) << "getOption sock=" << m_sock
+        MCS_LOG_DEBUG(g_logger) << "getOption sock=" << m_sock
                                   << " level=" << level << " option=" << option
                                   << " errno=" << errno << " errstr=" << strerror(errno);
         return false;
@@ -111,7 +111,7 @@ bool Socket::getOption(int level, int option, void *result, socklen_t *len) {
 
 bool Socket::setOption(int level, int option, const void *result, socklen_t len) {
     if (setsockopt(m_sock, level, option, result, (socklen_t)len)) {
-        mcs_LOG_DEBUG(g_logger) << "setOption sock=" << m_sock
+        MCS_LOG_DEBUG(g_logger) << "setOption sock=" << m_sock
                                   << " level=" << level << " option=" << option
                                   << " errno=" << errno << " errstr=" << strerror(errno);
         return false;
@@ -123,7 +123,7 @@ Socket::ptr Socket::accept() {
     Socket::ptr sock(new Socket(m_family, m_type, m_protocol));
     int newsock = ::accept(m_sock, nullptr, nullptr);
     if (newsock == -1) {
-        mcs_LOG_ERROR(g_logger) << "accept(" << m_sock << ") errno="
+        MCS_LOG_ERROR(g_logger) << "accept(" << m_sock << ") errno="
                                   << errno << " errstr=" << strerror(errno);
         return nullptr;
     }
@@ -150,13 +150,13 @@ bool Socket::bind(const Address::ptr addr) {
     m_localAddress = addr;
     if (!isValid()) {
         newSock();
-        if (mcs_UNLIKELY(!isValid())) {
+        if (MCS_UNLIKELY(!isValid())) {
             return false;
         }
     }
 
-    if (mcs_UNLIKELY(addr->getFamily() != m_family)) {
-        mcs_LOG_ERROR(g_logger) << "bind sock.family("
+    if (MCS_UNLIKELY(addr->getFamily() != m_family)) {
+        MCS_LOG_ERROR(g_logger) << "bind sock.family("
                                   << m_family << ") addr.family(" << addr->getFamily()
                                   << ") not equal, addr=" << addr->toString();
         return false;
@@ -173,7 +173,7 @@ bool Socket::bind(const Address::ptr addr) {
     }
 
     if (::bind(m_sock, addr->getAddr(), addr->getAddrLen())) {
-        mcs_LOG_ERROR(g_logger) << "bind error errrno=" << errno
+        MCS_LOG_ERROR(g_logger) << "bind error errrno=" << errno
                                   << " errstr=" << strerror(errno);
         return false;
     }
@@ -183,7 +183,7 @@ bool Socket::bind(const Address::ptr addr) {
 
 bool Socket::reconnect(uint64_t timeout_ms) {
     if (!m_remoteAddress) {
-        mcs_LOG_ERROR(g_logger) << "reconnect m_remoteAddress is null";
+        MCS_LOG_ERROR(g_logger) << "reconnect m_remoteAddress is null";
         return false;
     }
     m_localAddress.reset();
@@ -194,13 +194,13 @@ bool Socket::connect(const Address::ptr addr, uint64_t timeout_ms) {
     m_remoteAddress = addr;
     if (!isValid()) {
         newSock();
-        if (mcs_UNLIKELY(!isValid())) {
+        if (MCS_UNLIKELY(!isValid())) {
             return false;
         }
     }
 
-    if (mcs_UNLIKELY(addr->getFamily() != m_family)) {
-        mcs_LOG_ERROR(g_logger) << "connect sock.family("
+    if (MCS_UNLIKELY(addr->getFamily() != m_family)) {
+        MCS_LOG_ERROR(g_logger) << "connect sock.family("
                                   << m_family << ") addr.family(" << addr->getFamily()
                                   << ") not equal, addr=" << addr->toString();
         return false;
@@ -208,14 +208,14 @@ bool Socket::connect(const Address::ptr addr, uint64_t timeout_ms) {
 
     if (timeout_ms == (uint64_t)-1) {
         if (::connect(m_sock, addr->getAddr(), addr->getAddrLen())) {
-            mcs_LOG_ERROR(g_logger) << "sock=" << m_sock << " connect(" << addr->toString()
+            MCS_LOG_ERROR(g_logger) << "sock=" << m_sock << " connect(" << addr->toString()
                                       << ") error errno=" << errno << " errstr=" << strerror(errno);
             close();
             return false;
         }
     } else {
         if (::connect_with_timeout(m_sock, addr->getAddr(), addr->getAddrLen(), timeout_ms)) {
-            mcs_LOG_ERROR(g_logger) << "sock=" << m_sock << " connect(" << addr->toString()
+            MCS_LOG_ERROR(g_logger) << "sock=" << m_sock << " connect(" << addr->toString()
                                       << ") timeout=" << timeout_ms << " error errno="
                                       << errno << " errstr=" << strerror(errno);
             close();
@@ -230,11 +230,11 @@ bool Socket::connect(const Address::ptr addr, uint64_t timeout_ms) {
 
 bool Socket::listen(int backlog) {
     if (!isValid()) {
-        mcs_LOG_ERROR(g_logger) << "listen error sock=-1";
+        MCS_LOG_ERROR(g_logger) << "listen error sock=-1";
         return false;
     }
     if (::listen(m_sock, backlog)) {
-        mcs_LOG_ERROR(g_logger) << "listen error errno=" << errno
+        MCS_LOG_ERROR(g_logger) << "listen error errno=" << errno
                                   << " errstr=" << strerror(errno);
         return false;
     }
@@ -352,7 +352,7 @@ Address::ptr Socket::getRemoteAddress() {
     }
     socklen_t addrlen = result->getAddrLen();
     if (getpeername(m_sock, result->getAddr(), &addrlen)) {
-        mcs_LOG_ERROR(g_logger) << "getpeername error sock=" << m_sock
+        MCS_LOG_ERROR(g_logger) << "getpeername error sock=" << m_sock
                                   << " errno=" << errno << " errstr=" << strerror(errno);
         return Address::ptr(new UnknownAddress(m_family));
     }
@@ -386,7 +386,7 @@ Address::ptr Socket::getLocalAddress() {
     }
     socklen_t addrlen = result->getAddrLen();
     if (getsockname(m_sock, result->getAddr(), &addrlen)) {
-        mcs_LOG_ERROR(g_logger) << "getsockname error sock=" << m_sock
+        MCS_LOG_ERROR(g_logger) << "getsockname error sock=" << m_sock
                                   << " errno=" << errno << " errstr=" << strerror(errno);
         return Address::ptr(new UnknownAddress(m_family));
     }
@@ -459,10 +459,10 @@ void Socket::initSock() {
 
 void Socket::newSock() {
     m_sock = socket(m_family, m_type, m_protocol);
-    if (mcs_LIKELY(m_sock != -1)) {
+    if (MCS_LIKELY(m_sock != -1)) {
         initSock();
     } else {
-        mcs_LOG_ERROR(g_logger) << "socket(" << m_family
+        MCS_LOG_ERROR(g_logger) << "socket(" << m_family
                                   << ", " << m_type << ", " << m_protocol << ") errno="
                                   << errno << " errstr=" << strerror(errno);
     }

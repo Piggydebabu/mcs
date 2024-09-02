@@ -2,8 +2,8 @@
  * @file address.h
  * @brief 网络地址的封装(IPv4,IPv6,Unix)
  */
-#ifndef __mcs_ADDRESS_H__
-#define __mcs_ADDRESS_H__
+#ifndef __MCS_ADDRESS_H__
+#define __MCS_ADDRESS_H__
 
 #include <memory>
 #include <string>

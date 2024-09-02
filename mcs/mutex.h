@@ -2,8 +2,8 @@
  * @file mutex.h
  * @brief 信号量，互斥锁，读写锁，范围锁模板，自旋锁，原子锁
  */
-#ifndef __mcs_MUTEX_H__
-#define __mcs_MUTEX_H__
+#ifndef __MCS_MUTEX_H__
+#define __MCS_MUTEX_H__
 
 #include <thread>
 #include <functional>
@@ -429,4 +429,4 @@ private:
 
 } // namespace mcs
 
-#endif // __mcs_MUTEX_H__
+#endif // __MCS_MUTEX_H__

@@ -690,17 +690,17 @@ mcs::ConfigVar<std::set<LogDefine>>::ptr g_log_defines =
 struct LogIniter {
     LogIniter() {
         g_log_defines->addListener([](const std::set<LogDefine> &old_value, const std::set<LogDefine> &new_value){
-            mcs_LOG_INFO(mcs_LOG_ROOT()) << "on log config changed";
+            MCS_LOG_INFO(MCS_LOG_ROOT()) << "on log config changed";
             for(auto &i : new_value) {
                 auto it = old_value.find(i);
                 mcs::Logger::ptr logger;
                 if(it == old_value.end()) {
                     // 新增logger
-                    logger = mcs_LOG_NAME(i.name);
+                    logger = MCS_LOG_NAME(i.name);
                 } else {
                     if(!(i == *it)) {
                         // 修改的logger
-                        logger == mcs_LOG_NAME(i.name);
+                        logger == MCS_LOG_NAME(i.name);
                     } else {
                         continue;
                     }
@@ -732,7 +732,7 @@ struct LogIniter {
             for(auto &i : old_value) {
                 auto it = new_value.find(i);
                 if(it == new_value.end()) {
-                    auto logger = mcs_LOG_NAME(i.name);
+                    auto logger = MCS_LOG_NAME(i.name);
                     logger->setLevel(LogLevel::NOTSET);
                     logger->clearAppenders();
                 }

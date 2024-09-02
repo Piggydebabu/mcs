@@ -13,7 +13,7 @@
 
 namespace mcs {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 bool Env::init(int argc, char **argv) {
     char link[1024] = {0};
@@ -37,7 +37,7 @@ bool Env::init(int argc, char **argv) {
                 }
                 now_key = argv[i] + 1;
             } else {
-                mcs_LOG_ERROR(g_logger) << "invalid arg idx=" << i
+                MCS_LOG_ERROR(g_logger) << "invalid arg idx=" << i
                                           << " val=" << argv[i];
                 return false;
             }
@@ -46,7 +46,7 @@ bool Env::init(int argc, char **argv) {
                 add(now_key, argv[i]);
                 now_key = nullptr;
             } else {
-                mcs_LOG_ERROR(g_logger) << "invalid arg idx=" << i
+                MCS_LOG_ERROR(g_logger) << "invalid arg idx=" << i
                                           << " val=" << argv[i];
                 return false;
             }

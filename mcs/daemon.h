@@ -3,8 +3,8 @@
  * @brief 守护进程启动
  */
 
-#ifndef __mcs_DAEMON_H__
-#define __mcs_DAEMON_H__
+#ifndef __MCS_DAEMON_H__
+#define __MCS_DAEMON_H__
 
 #include <unistd.h>
 #include <functional>

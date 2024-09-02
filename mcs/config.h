@@ -2,8 +2,8 @@
  * @file config.h
  * @brief 配置模块
  */
-#ifndef __mcs_CONFIG_H__
-#define __mcs_CONFIG_H__
+#ifndef __MCS_CONFIG_H__
+#define __MCS_CONFIG_H__
 
 #include <memory>
 #include <string>
@@ -350,7 +350,7 @@ public:
             RWMutexType::ReadLock lock(m_mutex);
             return ToStr()(m_val);
         } catch (std::exception &e) {
-            mcs_LOG_ERROR(mcs_LOG_ROOT()) << "ConfigVar::toString exception "
+            MCS_LOG_ERROR(MCS_LOG_ROOT()) << "ConfigVar::toString exception "
                                               << e.what() << " convert: " << TypeToName<T>() << " to string"
                                               << " name=" << m_name;
         }
@@ -365,7 +365,7 @@ public:
         try {
             setValue(FromStr()(val));
         } catch (std::exception &e) {
-            mcs_LOG_ERROR(mcs_LOG_ROOT()) << "ConfigVar::fromString exception "
+            MCS_LOG_ERROR(MCS_LOG_ROOT()) << "ConfigVar::fromString exception "
                                               << e.what() << " convert: string to " << TypeToName<T>()
                                               << " name=" << m_name
                                               << " - " << val;
@@ -478,10 +478,10 @@ public:
         if (it != GetDatas().end()) {
             auto tmp = std::dynamic_pointer_cast<ConfigVar<T>>(it->second);
             if (tmp) {
-                mcs_LOG_INFO(mcs_LOG_ROOT()) << "Lookup name=" << name << " exists";
+                MCS_LOG_INFO(MCS_LOG_ROOT()) << "Lookup name=" << name << " exists";
                 return tmp;
             } else {
-                mcs_LOG_ERROR(mcs_LOG_ROOT()) << "Lookup name=" << name << " exists but type not "
+                MCS_LOG_ERROR(MCS_LOG_ROOT()) << "Lookup name=" << name << " exists but type not "
                                                   << TypeToName<T>() << " real_type=" << it->second->getTypeName()
                                                   << " " << it->second->toString();
                 return nullptr;
@@ -489,7 +489,7 @@ public:
         }
 
         if (name.find_first_not_of("abcdefghikjlmnopqrstuvwxyz._012345678") != std::string::npos) {
-            mcs_LOG_ERROR(mcs_LOG_ROOT()) << "Lookup name invalid " << name;
+            MCS_LOG_ERROR(MCS_LOG_ROOT()) << "Lookup name invalid " << name;
             throw std::invalid_argument(name);
         }
 

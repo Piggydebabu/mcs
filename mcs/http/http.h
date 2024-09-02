@@ -2,8 +2,8 @@
  * @file http.h
  * @brief HTTP定义结构体封装
  */
-#ifndef __mcs_HTTP_HTTP_H__
-#define __mcs_HTTP_HTTP_H__
+#ifndef __MCS_HTTP_HTTP_H__
+#define __MCS_HTTP_HTTP_H__
 
 #include "http-parser/http_parser.h"
 #include <string>

@@ -13,7 +13,7 @@
 
 namespace mcs {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 static mcs::ConfigVar<uint32_t>::ptr g_daemon_restart_interval
     = mcs::Config::Lookup("daemon.restart_interval", (uint32_t)5, "daemon restart interval");
 
@@ -43,10 +43,10 @@ static int real_daemon(int argc, char** argv,
             //子进程返回
             ProcessInfoMgr::GetInstance()->main_id = getpid();
             ProcessInfoMgr::GetInstance()->main_start_time  = time(0);
-            mcs_LOG_INFO(g_logger) << "process start pid=" << getpid();
+            MCS_LOG_INFO(g_logger) << "process start pid=" << getpid();
             return real_start(argc, argv, main_cb);
         } else if(pid < 0) {
-            mcs_LOG_ERROR(g_logger) << "fork fail return=" << pid
+            MCS_LOG_ERROR(g_logger) << "fork fail return=" << pid
                 << " errno=" << errno << " errstr=" << strerror(errno);
             return -1;
         } else {
@@ -54,10 +54,10 @@ static int real_daemon(int argc, char** argv,
             int status = 0;
             waitpid(pid, &status, 0);
             if(status) {
-                mcs_LOG_ERROR(g_logger) << "child crash pid=" << pid
+                MCS_LOG_ERROR(g_logger) << "child crash pid=" << pid
                     << " status=" << status;
             } else {
-                mcs_LOG_INFO(g_logger) << "child finished pid=" << pid;
+                MCS_LOG_INFO(g_logger) << "child finished pid=" << pid;
                 break;
             }
             ProcessInfoMgr::GetInstance()->restart_count += 1;

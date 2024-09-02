@@ -3,8 +3,8 @@
  * @brief 日志模块
  */
 
-#ifndef __mcs_LOG_H__
-#define __mcs_LOG_H__
+#ifndef __MCS_LOG_H__
+#define __MCS_LOG_H__
 
 #include <string>
 #include <memory>
@@ -22,66 +22,66 @@
 /**
  * @brief 获取root日志器
  */
-#define mcs_LOG_ROOT() mcs::LoggerMgr::GetInstance()->getRoot()
+#define MCS_LOG_ROOT() mcs::LoggerMgr::GetInstance()->getRoot()
 
 /**
  * @brief 获取指定名称的日志器
  */
-#define mcs_LOG_NAME(name) mcs::LoggerMgr::GetInstance()->getLogger(name)
+#define MCS_LOG_NAME(name) mcs::LoggerMgr::GetInstance()->getLogger(name)
 
 /**
  * @brief 使用流式方式将日志级别level的日志写入到logger
  * @details 构造一个LogEventWrap对象，包裹包含日志器和日志事件，在对象析构时调用日志器写日志事件
  * @todo 协程id未实现，暂时写0
  */
-#define mcs_LOG_LEVEL(logger , level) \
+#define MCS_LOG_LEVEL(logger , level) \
     if(level <= logger->getLevel()) \
         mcs::LogEventWrap(logger, mcs::LogEvent::ptr(new mcs::LogEvent(logger->getName(), \
             level, __FILE__, __LINE__, mcs::GetElapsedMS() - logger->getCreateTime(), \
             mcs::GetThreadId(), mcs::GetFiberId(), time(0), mcs::GetThreadName()))).getLogEvent()->getSS()
 
-#define mcs_LOG_FATAL(logger) mcs_LOG_LEVEL(logger, mcs::LogLevel::FATAL)
+#define MCS_LOG_FATAL(logger) MCS_LOG_LEVEL(logger, mcs::LogLevel::FATAL)
 
-#define mcs_LOG_ALERT(logger) mcs_LOG_LEVEL(logger, mcs::LogLevel::ALERT)
+#define MCS_LOG_ALERT(logger) MCS_LOG_LEVEL(logger, mcs::LogLevel::ALERT)
 
-#define mcs_LOG_CRIT(logger) mcs_LOG_LEVEL(logger, mcs::LogLevel::CRIT)
+#define MCS_LOG_CRIT(logger) MCS_LOG_LEVEL(logger, mcs::LogLevel::CRIT)
 
-#define mcs_LOG_ERROR(logger) mcs_LOG_LEVEL(logger, mcs::LogLevel::ERROR)
+#define MCS_LOG_ERROR(logger) MCS_LOG_LEVEL(logger, mcs::LogLevel::ERROR)
 
-#define mcs_LOG_WARN(logger) mcs_LOG_LEVEL(logger, mcs::LogLevel::WARN)
+#define MCS_LOG_WARN(logger) MCS_LOG_LEVEL(logger, mcs::LogLevel::WARN)
 
-#define mcs_LOG_NOTICE(logger) mcs_LOG_LEVEL(logger, mcs::LogLevel::NOTICE)
+#define MCS_LOG_NOTICE(logger) MCS_LOG_LEVEL(logger, mcs::LogLevel::NOTICE)
 
-#define mcs_LOG_INFO(logger) mcs_LOG_LEVEL(logger, mcs::LogLevel::INFO)
+#define MCS_LOG_INFO(logger) MCS_LOG_LEVEL(logger, mcs::LogLevel::INFO)
 
-#define mcs_LOG_DEBUG(logger) mcs_LOG_LEVEL(logger, mcs::LogLevel::DEBUG)
+#define MCS_LOG_DEBUG(logger) MCS_LOG_LEVEL(logger, mcs::LogLevel::DEBUG)
 
 /**
  * @brief 使用C printf方式将日志级别level的日志写入到logger
  * @details 构造一个LogEventWrap对象，包裹包含日志器和日志事件，在对象析构时调用日志器写日志事件
  * @todo 协程id未实现，暂时写0
  */
-#define mcs_LOG_FMT_LEVEL(logger, level, fmt, ...) \
+#define MCS_LOG_FMT_LEVEL(logger, level, fmt, ...) \
     if(level <= logger->getLevel()) \
         mcs::LogEventWrap(logger, mcs::LogEvent::ptr(new mcs::LogEvent(logger->getName(), \
             level, __FILE__, __LINE__, mcs::GetElapsedMS() - logger->getCreateTime(), \
             mcs::GetThreadId(), mcs::GetFiberId(), time(0), mcs::GetThreadName()))).getLogEvent()->printf(fmt, __VA_ARGS__)
 
-#define mcs_LOG_FMT_FATAL(logger, fmt, ...) mcs_LOG_FMT_LEVEL(logger, mcs::LogLevel::FATAL, fmt, __VA_ARGS__)
+#define MCS_LOG_FMT_FATAL(logger, fmt, ...) MCS_LOG_FMT_LEVEL(logger, mcs::LogLevel::FATAL, fmt, __VA_ARGS__)
 
-#define mcs_LOG_FMT_ALERT(logger, fmt, ...) mcs_LOG_FMT_LEVEL(logger, mcs::LogLevel::ALERT, fmt, __VA_ARGS__)
+#define MCS_LOG_FMT_ALERT(logger, fmt, ...) MCS_LOG_FMT_LEVEL(logger, mcs::LogLevel::ALERT, fmt, __VA_ARGS__)
 
-#define mcs_LOG_FMT_CRIT(logger, fmt, ...) mcs_LOG_FMT_LEVEL(logger, mcs::LogLevel::CRIT, fmt, __VA_ARGS__)
+#define MCS_LOG_FMT_CRIT(logger, fmt, ...) MCS_LOG_FMT_LEVEL(logger, mcs::LogLevel::CRIT, fmt, __VA_ARGS__)
 
-#define mcs_LOG_FMT_ERROR(logger, fmt, ...) mcs_LOG_FMT_LEVEL(logger, mcs::LogLevel::ERROR, fmt, __VA_ARGS__)
+#define MCS_LOG_FMT_ERROR(logger, fmt, ...) MCS_LOG_FMT_LEVEL(logger, mcs::LogLevel::ERROR, fmt, __VA_ARGS__)
 
-#define mcs_LOG_FMT_WARN(logger, fmt, ...) mcs_LOG_FMT_LEVEL(logger, mcs::LogLevel::WARN, fmt, __VA_ARGS__)
+#define MCS_LOG_FMT_WARN(logger, fmt, ...) MCS_LOG_FMT_LEVEL(logger, mcs::LogLevel::WARN, fmt, __VA_ARGS__)
 
-#define mcs_LOG_FMT_NOTICE(logger, fmt, ...) mcs_LOG_FMT_LEVEL(logger, mcs::LogLevel::NOTICE, fmt, __VA_ARGS__)
+#define MCS_LOG_FMT_NOTICE(logger, fmt, ...) MCS_LOG_FMT_LEVEL(logger, mcs::LogLevel::NOTICE, fmt, __VA_ARGS__)
 
-#define mcs_LOG_FMT_INFO(logger, fmt, ...) mcs_LOG_FMT_LEVEL(logger, mcs::LogLevel::INFO, fmt, __VA_ARGS__)
+#define MCS_LOG_FMT_INFO(logger, fmt, ...) MCS_LOG_FMT_LEVEL(logger, mcs::LogLevel::INFO, fmt, __VA_ARGS__)
 
-#define mcs_LOG_FMT_DEBUG(logger, fmt, ...) mcs_LOG_FMT_LEVEL(logger, mcs::LogLevel::DEBUG, fmt, __VA_ARGS__)
+#define MCS_LOG_FMT_DEBUG(logger, fmt, ...) MCS_LOG_FMT_LEVEL(logger, mcs::LogLevel::DEBUG, fmt, __VA_ARGS__)
 
 namespace mcs {
 
@@ -590,4 +590,4 @@ typedef mcs::Singleton<LoggerManager> LoggerMgr;
 
 } // end namespace mcs
 
-#endif // __mcs_LOG_H__
+#endif // __MCS_LOG_H__

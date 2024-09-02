@@ -2,8 +2,8 @@
  * @file socket_stream.h
  * @brief Socket流式接口封装
  */
-#ifndef __mcs_SOCKET_STREAM_H__
-#define __mcs_SOCKET_STREAM_H__
+#ifndef __MCS_SOCKET_STREAM_H__
+#define __MCS_SOCKET_STREAM_H__
 
 #include "../stream.h"
 #include "../socket.h"

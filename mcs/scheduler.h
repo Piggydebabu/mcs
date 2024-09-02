@@ -3,8 +3,8 @@
  * @brief 协程调度器实现
  */
 
-#ifndef __mcs_SCHEDULER_H__
-#define __mcs_SCHEDULER_H__
+#ifndef __MCS_SCHEDULER_H__
+#define __MCS_SCHEDULER_H__
 
 #include <functional>
 #include <list>

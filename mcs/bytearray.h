@@ -2,8 +2,8 @@
  * @file bytearray.h
  * @brief 二进制数组(序列化/反序列化)
  */
-#ifndef __mcs_BYTEARRAY_H__
-#define __mcs_BYTEARRAY_H__
+#ifndef __MCS_BYTEARRAY_H__
+#define __MCS_BYTEARRAY_H__
 
 #include <memory>
 #include <string>

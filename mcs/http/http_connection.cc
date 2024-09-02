@@ -10,7 +10,7 @@
 namespace mcs {
 namespace http {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 std::string HttpResult::toString() const {
     std::stringstream ss;
@@ -26,7 +26,7 @@ HttpConnection::HttpConnection(Socket::ptr sock, bool owner)
 }
 
 HttpConnection::~HttpConnection() {
-    mcs_LOG_DEBUG(g_logger) << "HttpConnection::~HttpConnection";
+    MCS_LOG_DEBUG(g_logger) << "HttpConnection::~HttpConnection";
 }
 
 HttpResponse::ptr HttpConnection::recvResponse() {
@@ -86,7 +86,7 @@ HttpResponse::ptr HttpConnection::recvResponse() {
     //         } while(!parser->isFinished());
     //         len -= 2;
             
-    //         mcs_LOG_INFO(g_logger) << "content_len=" << client_parser.content_len;
+    //         MCS_LOG_INFO(g_logger) << "content_len=" << client_parser.content_len;
     //         if(client_parser.content_len <= len) {
     //             body.append(data, client_parser.content_len);
     //             memmove(data, data + client_parser.content_len
@@ -308,17 +308,17 @@ HttpConnection::ptr HttpConnectionPool::getConnection() {
     if(!ptr) {
         IPAddress::ptr addr = Address::LookupAnyIPAddress(m_host);
         if(!addr) {
-            mcs_LOG_ERROR(g_logger) << "get addr fail: " << m_host;
+            MCS_LOG_ERROR(g_logger) << "get addr fail: " << m_host;
             return nullptr;
         }
         addr->setPort(m_port);
         Socket::ptr sock = Socket::CreateTCP(addr);
         if(!sock) {
-            mcs_LOG_ERROR(g_logger) << "create sock fail: " << *addr;
+            MCS_LOG_ERROR(g_logger) << "create sock fail: " << *addr;
             return nullptr;
         }
         if(!sock->connect(addr)) {
-            mcs_LOG_ERROR(g_logger) << "sock connect fail: " << *addr;
+            MCS_LOG_ERROR(g_logger) << "sock connect fail: " << *addr;
             return nullptr;
         }
 

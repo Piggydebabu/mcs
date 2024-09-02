@@ -2,8 +2,8 @@
  * @file servlet.h
  * @brief Servlet封装
  */
-#ifndef __mcs_HTTP_SERVLET_H__
-#define __mcs_HTTP_SERVLET_H__
+#ifndef __MCS_HTTP_SERVLET_H__
+#define __MCS_HTTP_SERVLET_H__
 
 #include <memory>
 #include <functional>
@@ -161,14 +161,14 @@ public:
 
     /**
      * @brief 添加模糊匹配servlet
-     * @param[in] uri uri 模糊匹配 /mcs_*
+     * @param[in] uri uri 模糊匹配 /MCS_*
      * @param[in] slt servlet
      */
     void addGlobServlet(const std::string& uri, Servlet::ptr slt);
 
     /**
      * @brief 添加模糊匹配servlet
-     * @param[in] uri uri 模糊匹配 /mcs_*
+     * @param[in] uri uri 模糊匹配 /MCS_*
      * @param[in] cb FunctionServlet回调函数
      */
     void addGlobServlet(const std::string& uri, FunctionServlet::callback cb);

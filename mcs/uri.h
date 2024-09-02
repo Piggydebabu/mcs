@@ -4,8 +4,8 @@
  * @author cjw
  * @date 2024-06-13
  */
-#ifndef __mcs_URI_H__
-#define __mcs_URI_H__
+#ifndef __MCS_URI_H__
+#define __MCS_URI_H__
 
 #include <memory>
 #include <string>

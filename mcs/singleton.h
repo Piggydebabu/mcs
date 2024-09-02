@@ -2,8 +2,8 @@
  * @file singleton.h
  * @brief 单例模式封装
  */
-#ifndef __mcs_SINGLETON_H__
-#define __mcs_SINGLETON_H__
+#ifndef __MCS_SINGLETON_H__
+#define __MCS_SINGLETON_H__
 
 #include <memory>
 

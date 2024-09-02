@@ -12,7 +12,7 @@ namespace mcs {
 static thread_local Thread *t_thread          = nullptr;
 static thread_local std::string t_thread_name = "UNKNOW";
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 Thread *Thread::GetThis() {
     return t_thread;
@@ -40,7 +40,7 @@ Thread::Thread(std::function<void()> cb, const std::string &name)
     }
     int rt = pthread_create(&m_thread, nullptr, &Thread::run, this);
     if (rt) {
-        mcs_LOG_ERROR(g_logger) << "pthread_create thread fail, rt=" << rt
+        MCS_LOG_ERROR(g_logger) << "pthread_create thread fail, rt=" << rt
                                   << " name=" << name;
         throw std::logic_error("pthread_create error");
     }
@@ -57,7 +57,7 @@ void Thread::join() {
     if (m_thread) {
         int rt = pthread_join(m_thread, nullptr);
         if (rt) {
-            mcs_LOG_ERROR(g_logger) << "pthread_join thread fail, rt=" << rt
+            MCS_LOG_ERROR(g_logger) << "pthread_join thread fail, rt=" << rt
                                       << " name=" << m_name;
             throw std::logic_error("pthread_join error");
         }

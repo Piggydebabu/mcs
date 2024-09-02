@@ -3,8 +3,8 @@
  * @brief hook函数封装
  */
 
-#ifndef __mcs_HOOK_H__
-#define __mcs_HOOK_H__
+#ifndef __MCS_HOOK_H__
+#define __MCS_HOOK_H__
 
 #include <fcntl.h>
 #include <sys/ioctl.h>

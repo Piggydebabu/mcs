@@ -6,7 +6,7 @@
 namespace mcs {
 namespace http {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 HttpServer::HttpServer(bool keepalive
                ,mcs::IOManager* worker
@@ -27,12 +27,12 @@ void HttpServer::setName(const std::string& v) {
 }
 
 void HttpServer::handleClient(Socket::ptr client) {
-    mcs_LOG_DEBUG(g_logger) << "handleClient " << *client;
+    MCS_LOG_DEBUG(g_logger) << "handleClient " << *client;
     HttpSession::ptr session(new HttpSession(client));
     do {
         auto req = session->recvRequest();
         if(!req) {
-            mcs_LOG_DEBUG(g_logger) << "recv http request fail, errno="
+            MCS_LOG_DEBUG(g_logger) << "recv http request fail, errno="
                 << errno << " errstr=" << strerror(errno)
                 << " cliet:" << *client << " keep_alive=" << m_isKeepalive;
             break;

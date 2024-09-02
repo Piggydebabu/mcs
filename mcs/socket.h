@@ -2,8 +2,8 @@
  * @file socket.h
  * @brief Socket封装
  */
-#ifndef __mcs_SOCKET_H__
-#define __mcs_SOCKET_H__
+#ifndef __MCS_SOCKET_H__
+#define __MCS_SOCKET_H__
 
 #include <memory>
 #include <netinet/tcp.h>

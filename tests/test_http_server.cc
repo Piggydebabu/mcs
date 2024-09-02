@@ -6,7 +6,7 @@
  */
 #include "mcs/mcs.h"
 
-static mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+static mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 #define XX(...) #__VA_ARGS__
 

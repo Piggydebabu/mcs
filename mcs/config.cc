@@ -11,7 +11,7 @@
 
 namespace mcs {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 ConfigVarBase::ptr Config::LookupBase(const std::string &name) {
     RWMutexType::ReadLock lock(GetMutex());
@@ -28,7 +28,7 @@ static void ListAllMember(const std::string &prefix,
                           const YAML::Node &node,
                           std::list<std::pair<std::string, const YAML::Node>> &output) {
     if (prefix.find_first_not_of("abcdefghikjlmnopqrstuvwxyz._012345678") != std::string::npos) {
-        mcs_LOG_ERROR(g_logger) << "Config invalid name: " << prefix << " : " << node;
+        MCS_LOG_ERROR(g_logger) << "Config invalid name: " << prefix << " : " << node;
         return;
     }
     output.push_back(std::make_pair(prefix, node));
@@ -90,10 +90,10 @@ void Config::LoadFromConfDir(const std::string &path, bool force) {
         try {
             YAML::Node root = YAML::LoadFile(i);
             LoadFromYaml(root);
-            mcs_LOG_INFO(g_logger) << "LoadConfFile file="
+            MCS_LOG_INFO(g_logger) << "LoadConfFile file="
                                      << i << " ok";
         } catch (...) {
-            mcs_LOG_ERROR(g_logger) << "LoadConfFile file="
+            MCS_LOG_ERROR(g_logger) << "LoadConfFile file="
                                       << i << " failed";
         }
     }

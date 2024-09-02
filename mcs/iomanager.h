@@ -3,8 +3,8 @@
  * @brief IO协程调度器
  */
 
-#ifndef __mcs_IOMANAGER_H__
-#define __mcs_IOMANAGER_H__
+#ifndef __MCS_IOMANAGER_H__
+#define __MCS_IOMANAGER_H__
 
 #include "scheduler.h"
 #include "timer.h"

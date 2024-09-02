@@ -3,8 +3,8 @@
  * @brief 线程相关的封装
  * 
  */
-#ifndef __mcs_THREAD_H__
-#define __mcs_THREAD_H__
+#ifndef __MCS_THREAD_H__
+#define __MCS_THREAD_H__
 
 #include "mutex.h"
 

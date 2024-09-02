@@ -6,18 +6,18 @@
  */
 #include "mcs/mcs.h"
 
-mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 int count = 0;
 mcs::Mutex s_mutex;
 
 void func1(void *arg) {
-    mcs_LOG_INFO(g_logger) << "name:" << mcs::Thread::GetName()
+    MCS_LOG_INFO(g_logger) << "name:" << mcs::Thread::GetName()
         << " this.name:" << mcs::Thread::GetThis()->getName()
         << " thread name:" << mcs::GetThreadName()
         << " id:" << mcs::GetThreadId()
         << " this.id:" << mcs::Thread::GetThis()->getId();
-    mcs_LOG_INFO(g_logger) << "arg: " << *(int*)arg;
+    MCS_LOG_INFO(g_logger) << "arg: " << *(int*)arg;
     for(int i = 0; i < 10000; i++) {
         mcs::Mutex::Lock lock(s_mutex);
         ++count;
@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
         thrs[i]->join();
     }
     
-    mcs_LOG_INFO(g_logger) << "count = " << count;
+    MCS_LOG_INFO(g_logger) << "count = " << count;
     return 0;
 }
 

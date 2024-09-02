@@ -2,8 +2,8 @@
  * @file http_parser.h
  * @brief HTTP协议解析封装
  */
-#ifndef __mcs_HTTP_PARSER_H__
-#define __mcs_HTTP_PARSER_H__
+#ifndef __MCS_HTTP_PARSER_H__
+#define __MCS_HTTP_PARSER_H__
 
 #include "http.h"
 

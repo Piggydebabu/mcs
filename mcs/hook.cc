@@ -8,7 +8,7 @@
 #include "fd_manager.h"
 #include "macro.h"
 
-mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 namespace mcs {
 
 static mcs::ConfigVar<int>::ptr g_tcp_connect_timeout =
@@ -56,7 +56,7 @@ struct _HookIniter {
         s_connect_timeout = g_tcp_connect_timeout->getValue();
 
         g_tcp_connect_timeout->addListener([](const int& old_value, const int& new_value){
-                mcs_LOG_INFO(g_logger) << "tcp connect timeout changed from "
+                MCS_LOG_INFO(g_logger) << "tcp connect timeout changed from "
                                          << old_value << " to " << new_value;
                 s_connect_timeout = new_value;
         });
@@ -147,8 +147,8 @@ retry:
         }
 
         int rt = iom->addEvent(fd, (mcs::IOManager::Event)(event));
-        if(mcs_UNLIKELY(rt)) {
-            mcs_LOG_ERROR(g_logger) << hook_fun_name << " addEvent("
+        if(MCS_UNLIKELY(rt)) {
+            MCS_LOG_ERROR(g_logger) << hook_fun_name << " addEvent("
                 << fd << ", " << event << ")";
             if(timer) {
                 timer->cancel();
@@ -285,7 +285,7 @@ int connect_with_timeout(int fd, const struct sockaddr* addr, socklen_t addrlen,
         if(timer) {
             timer->cancel();
         }
-        mcs_LOG_ERROR(g_logger) << "connect addEvent(" << fd << ", WRITE) error";
+        MCS_LOG_ERROR(g_logger) << "connect addEvent(" << fd << ", WRITE) error";
     }
 
     int error = 0;

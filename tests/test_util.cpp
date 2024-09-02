@@ -6,7 +6,7 @@
  */
 #include "mcs/mcs.h"
 
-mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 void test2() {
     std::cout << mcs::BacktraceToString() << std::endl;
@@ -20,23 +20,23 @@ void test_backtrace() {
 }
 
 int main() {
-    mcs_LOG_INFO(g_logger) << mcs::GetCurrentMS();
-    mcs_LOG_INFO(g_logger) << mcs::GetCurrentUS();
-    mcs_LOG_INFO(g_logger) << mcs::ToUpper("hello");
-    mcs_LOG_INFO(g_logger) << mcs::ToLower("HELLO");
-    mcs_LOG_INFO(g_logger) << mcs::Time2Str();
-    mcs_LOG_INFO(g_logger) << mcs::Str2Time("1970-01-01 00:00:00"); // -28800
+    MCS_LOG_INFO(g_logger) << mcs::GetCurrentMS();
+    MCS_LOG_INFO(g_logger) << mcs::GetCurrentUS();
+    MCS_LOG_INFO(g_logger) << mcs::ToUpper("hello");
+    MCS_LOG_INFO(g_logger) << mcs::ToLower("HELLO");
+    MCS_LOG_INFO(g_logger) << mcs::Time2Str();
+    MCS_LOG_INFO(g_logger) << mcs::Str2Time("1970-01-01 00:00:00"); // -28800
 
     std::vector<std::string> files;
     mcs::FSUtil::ListAllFile(files, "./mcs", ".cpp");
     for (auto &i : files) {
-        mcs_LOG_INFO(g_logger) << i;
+        MCS_LOG_INFO(g_logger) << i;
     }
 
     // todo, more...
 
     test_backtrace();
 
-    mcs_ASSERT2(false, "assert");
+    MCS_ASSERT2(false, "assert");
     return 0;
 }

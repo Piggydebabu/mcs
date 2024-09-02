@@ -4,8 +4,8 @@
  * @details 基于ucontext_t实现，非对称协程
  */
 
-#ifndef __mcs_FIBER_H__
-#define __mcs_FIBER_H__
+#ifndef __MCS_FIBER_H__
+#define __MCS_FIBER_H__
 
 #include <functional>
 #include <memory>

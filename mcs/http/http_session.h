@@ -3,8 +3,8 @@
  * @brief HTTPSession封装
  */
 
-#ifndef __mcs_HTTP_SESSION_H__
-#define __mcs_HTTP_SESSION_H__
+#ifndef __MCS_HTTP_SESSION_H__
+#define __MCS_HTTP_SESSION_H__
 
 #include "../streams/socket_stream.h"
 #include "http.h"

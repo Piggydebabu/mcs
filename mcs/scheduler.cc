@@ -8,7 +8,7 @@
 
 namespace mcs {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 /// 当前线程的调度器，同一个调度器下的所有线程共享同一个实例
 static thread_local Scheduler *t_scheduler = nullptr;
@@ -16,7 +16,7 @@ static thread_local Scheduler *t_scheduler = nullptr;
 static thread_local Fiber *t_scheduler_fiber = nullptr;
 
 Scheduler::Scheduler(size_t threads, bool use_caller, const std::string &name) {
-    mcs_ASSERT(threads > 0);
+    MCS_ASSERT(threads > 0);
 
     m_useCaller = use_caller;
     m_name      = name;
@@ -24,7 +24,7 @@ Scheduler::Scheduler(size_t threads, bool use_caller, const std::string &name) {
     if (use_caller) {
         --threads;
         mcs::Fiber::GetThis();
-        mcs_ASSERT(GetThis() == nullptr);
+        MCS_ASSERT(GetThis() == nullptr);
         t_scheduler = this;
 
         /**
@@ -56,21 +56,21 @@ void Scheduler::setThis() {
 }
 
 Scheduler::~Scheduler() {
-    mcs_LOG_DEBUG(g_logger) << "Scheduler::~Scheduler()";
-    mcs_ASSERT(m_stopping);
+    MCS_LOG_DEBUG(g_logger) << "Scheduler::~Scheduler()";
+    MCS_ASSERT(m_stopping);
     if (GetThis() == this) {
         t_scheduler = nullptr;
     }
 }
 
 void Scheduler::start() {
-    mcs_LOG_DEBUG(g_logger) << "start";
+    MCS_LOG_DEBUG(g_logger) << "start";
     MutexType::Lock lock(m_mutex);
     if (m_stopping) {
-        mcs_LOG_ERROR(g_logger) << "Scheduler is stopped";
+        MCS_LOG_ERROR(g_logger) << "Scheduler is stopped";
         return;
     }
-    mcs_ASSERT(m_threads.empty());
+    MCS_ASSERT(m_threads.empty());
     m_threads.resize(m_threadCount);
     for (size_t i = 0; i < m_threadCount; i++) {
         m_threads[i].reset(new Thread(std::bind(&Scheduler::run, this),
@@ -85,18 +85,18 @@ bool Scheduler::stopping() {
 }
 
 void Scheduler::tickle() { 
-    mcs_LOG_DEBUG(g_logger) << "tickle"; 
+    MCS_LOG_DEBUG(g_logger) << "tickle"; 
 }
 
 void Scheduler::idle() {
-    mcs_LOG_DEBUG(g_logger) << "idle";
+    MCS_LOG_DEBUG(g_logger) << "idle";
     while (!stopping()) {
         mcs::Fiber::GetThis()->yield();
     }
 }
 
 void Scheduler::stop() {
-    mcs_LOG_DEBUG(g_logger) << "stop";
+    MCS_LOG_DEBUG(g_logger) << "stop";
     if (stopping()) {
         return;
     }
@@ -104,9 +104,9 @@ void Scheduler::stop() {
 
     /// 如果use caller，那只能由caller线程发起stop
     if (m_useCaller) {
-        mcs_ASSERT(GetThis() == this);
+        MCS_ASSERT(GetThis() == this);
     } else {
-        mcs_ASSERT(GetThis() != this);
+        MCS_ASSERT(GetThis() != this);
     }
 
     for (size_t i = 0; i < m_threadCount; i++) {
@@ -120,7 +120,7 @@ void Scheduler::stop() {
     /// 在use caller情况下，调度器协程结束时，应该返回caller协程
     if (m_rootFiber) {
         m_rootFiber->resume();
-        mcs_LOG_DEBUG(g_logger) << "m_rootFiber end";
+        MCS_LOG_DEBUG(g_logger) << "m_rootFiber end";
     }
 
     std::vector<Thread::ptr> thrs;
@@ -134,7 +134,7 @@ void Scheduler::stop() {
 }
 
 void Scheduler::run() {
-    mcs_LOG_DEBUG(g_logger) << "run";
+    MCS_LOG_DEBUG(g_logger) << "run";
     set_hook_enable(true);
     setThis();
     if (mcs::GetThreadId() != m_rootThread) {
@@ -161,11 +161,11 @@ void Scheduler::run() {
                 }
 
                 // 找到一个未指定线程，或是指定了当前线程的任务
-                mcs_ASSERT(it->fiber || it->cb);
+                MCS_ASSERT(it->fiber || it->cb);
 
                 // if (it->fiber) {
                 //     // 任务队列时的协程一定是READY状态，谁会把RUNNING或TERM状态的协程加入调度呢？
-                //     mcs_ASSERT(it->fiber->getState() == Fiber::READY);
+                //     MCS_ASSERT(it->fiber->getState() == Fiber::READY);
                 // }
 
                 // [BUG FIX]: hook IO相关的系统调用时，在检测到IO未就绪的情况下，会先添加对应的读写事件，再yield当前协程，等IO就绪后再resume当前协程
@@ -209,7 +209,7 @@ void Scheduler::run() {
             // 进到这个分支情况一定是任务队列空了，调度idle协程即可
             if (idle_fiber->getState() == Fiber::TERM) {
                 // 如果调度器没有调度任务，那么idle协程会不停地resume/yield，不会结束，如果idle协程结束了，那一定是调度器停止了
-                mcs_LOG_DEBUG(g_logger) << "idle fiber term";
+                MCS_LOG_DEBUG(g_logger) << "idle fiber term";
                 break;
             }
             ++m_idleThreadCount;
@@ -217,7 +217,7 @@ void Scheduler::run() {
             --m_idleThreadCount;
         }
     }
-    mcs_LOG_DEBUG(g_logger) << "Scheduler::run() exit";
+    MCS_LOG_DEBUG(g_logger) << "Scheduler::run() exit";
 }
 
 } // end namespace mcs

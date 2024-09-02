@@ -7,7 +7,7 @@
 
 #include "mcs/mcs.h"
 
-static mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+static mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 const char *family2str(int family) {
     switch (family) {
@@ -27,20 +27,20 @@ const char *family2str(int family) {
  * @param[in] family 地址类型
  */
 void test_ifaces(int family) {
-    mcs_LOG_INFO(g_logger) << "test_ifaces: " << family2str(family);
+    MCS_LOG_INFO(g_logger) << "test_ifaces: " << family2str(family);
 
     std::multimap<std::string, std::pair<mcs::Address::ptr, uint32_t>> results;
     bool v = mcs::Address::GetInterfaceAddresses(results, family);
     if (!v) {
-        mcs_LOG_ERROR(g_logger) << "GetInterfaceAddresses fail";
+        MCS_LOG_ERROR(g_logger) << "GetInterfaceAddresses fail";
         return;
     }
     for (auto &i : results) {
-        mcs_LOG_INFO(g_logger) << i.first << " - " << i.second.first->toString() << " - "
+        MCS_LOG_INFO(g_logger) << i.first << " - " << i.second.first->toString() << " - "
                                  << i.second.second;
     }
     
-    mcs_LOG_INFO(g_logger) << "\n";
+    MCS_LOG_INFO(g_logger) << "\n";
 }
 
 /**
@@ -49,19 +49,19 @@ void test_ifaces(int family) {
  * @param[in] family 地址类型
  */
 void test_iface(const char *iface, int family) {
-    mcs_LOG_INFO(g_logger) << "test_iface: " << iface << ", " << family2str(family);
+    MCS_LOG_INFO(g_logger) << "test_iface: " << iface << ", " << family2str(family);
 
     std::vector<std::pair<mcs::Address::ptr, uint32_t>> result;
     bool v = mcs::Address::GetInterfaceAddresses(result, iface, family);
     if(!v) {
-        mcs_LOG_ERROR(g_logger) << "GetInterfaceAddresses fail";
+        MCS_LOG_ERROR(g_logger) << "GetInterfaceAddresses fail";
         return;
     }
     for(auto &i : result) {
-        mcs_LOG_INFO(g_logger) << i.first->toString() << " - " << i.second;
+        MCS_LOG_INFO(g_logger) << i.first->toString() << " - " << i.second;
     }
 
-    mcs_LOG_INFO(g_logger) << "\n";
+    MCS_LOG_INFO(g_logger) << "\n";
 }
 
 /**
@@ -70,88 +70,88 @@ void test_iface(const char *iface, int family) {
  * @note 这里没有区分不同的套接字类型，所以会有重复值
  */
 void test_lookup(const char *host) {
-    mcs_LOG_INFO(g_logger) << "test_lookup: " << host;
+    MCS_LOG_INFO(g_logger) << "test_lookup: " << host;
 
-    mcs_LOG_INFO(g_logger) <<"Lookup:";
+    MCS_LOG_INFO(g_logger) <<"Lookup:";
     std::vector<mcs::Address::ptr> results;
     bool v = mcs::Address::Lookup(results, host, AF_INET);
     if(!v) {
-        mcs_LOG_ERROR(g_logger) << "Lookup fail";
+        MCS_LOG_ERROR(g_logger) << "Lookup fail";
         return;
     }
     for(auto &i : results) {
-        mcs_LOG_INFO(g_logger) << i->toString();
+        MCS_LOG_INFO(g_logger) << i->toString();
     }
     
-    mcs_LOG_INFO(g_logger) <<"LookupAny:";
+    MCS_LOG_INFO(g_logger) <<"LookupAny:";
     auto addr2 = mcs::Address::LookupAny(host);
-    mcs_LOG_INFO(g_logger) << addr2->toString();
+    MCS_LOG_INFO(g_logger) << addr2->toString();
 
-    mcs_LOG_INFO(g_logger) <<"LookupAnyIPAddress:";
+    MCS_LOG_INFO(g_logger) <<"LookupAnyIPAddress:";
     auto addr1 = mcs::Address::LookupAnyIPAddress(host);
-    mcs_LOG_INFO(g_logger) << addr1->toString();
+    MCS_LOG_INFO(g_logger) << addr1->toString();
 
-    mcs_LOG_INFO(g_logger) << "\n";
+    MCS_LOG_INFO(g_logger) << "\n";
 }
 
 /**
  * @brief IPv4地址类测试
  */
 void test_ipv4() {
-    mcs_LOG_INFO(g_logger) << "test_ipv4";
+    MCS_LOG_INFO(g_logger) << "test_ipv4";
 
     auto addr = mcs::IPAddress::Create("192.168.1.120");
     if (!addr) {
-        mcs_LOG_ERROR(g_logger) << "IPAddress::Create error";
+        MCS_LOG_ERROR(g_logger) << "IPAddress::Create error";
         return;
     }
-    mcs_LOG_INFO(g_logger) << "addr: " << addr->toString();
-    mcs_LOG_INFO(g_logger) << "family: " << family2str(addr->getFamily());  
-    mcs_LOG_INFO(g_logger) << "port: " << addr->getPort();  
-    mcs_LOG_INFO(g_logger) << "addr length: " << addr->getAddrLen(); 
+    MCS_LOG_INFO(g_logger) << "addr: " << addr->toString();
+    MCS_LOG_INFO(g_logger) << "family: " << family2str(addr->getFamily());  
+    MCS_LOG_INFO(g_logger) << "port: " << addr->getPort();  
+    MCS_LOG_INFO(g_logger) << "addr length: " << addr->getAddrLen(); 
 
-    mcs_LOG_INFO(g_logger) << "broadcast addr: " << addr->broadcastAddress(24)->toString();
-    mcs_LOG_INFO(g_logger) << "network addr: " << addr->networkAddress(24)->toString();
-    mcs_LOG_INFO(g_logger) << "subnet mask addr: " << addr->subnetMask(24)->toString();
+    MCS_LOG_INFO(g_logger) << "broadcast addr: " << addr->broadcastAddress(24)->toString();
+    MCS_LOG_INFO(g_logger) << "network addr: " << addr->networkAddress(24)->toString();
+    MCS_LOG_INFO(g_logger) << "subnet mask addr: " << addr->subnetMask(24)->toString();
 
-    mcs_LOG_INFO(g_logger) << "\n";
+    MCS_LOG_INFO(g_logger) << "\n";
 }
 
 /**
  * @brief IPv6地址类测试
  */
 void test_ipv6() {
-    mcs_LOG_INFO(g_logger) << "test_ipv6";
+    MCS_LOG_INFO(g_logger) << "test_ipv6";
 
     auto addr = mcs::IPAddress::Create("fe80::215:5dff:fe88:d8a");
     if (!addr) {
-        mcs_LOG_ERROR(g_logger) << "IPAddress::Create error";
+        MCS_LOG_ERROR(g_logger) << "IPAddress::Create error";
         return;
     }
-    mcs_LOG_INFO(g_logger) << "addr: " << addr->toString();
-    mcs_LOG_INFO(g_logger) << "family: " << family2str(addr->getFamily());  
-    mcs_LOG_INFO(g_logger) << "port: " << addr->getPort();  
-    mcs_LOG_INFO(g_logger) << "addr length: " << addr->getAddrLen(); 
+    MCS_LOG_INFO(g_logger) << "addr: " << addr->toString();
+    MCS_LOG_INFO(g_logger) << "family: " << family2str(addr->getFamily());  
+    MCS_LOG_INFO(g_logger) << "port: " << addr->getPort();  
+    MCS_LOG_INFO(g_logger) << "addr length: " << addr->getAddrLen(); 
 
-    mcs_LOG_INFO(g_logger) << "broadcast addr: " << addr->broadcastAddress(64)->toString();
-    mcs_LOG_INFO(g_logger) << "network addr: " << addr->networkAddress(64)->toString();
-    mcs_LOG_INFO(g_logger) << "subnet mask addr: " << addr->subnetMask(64)->toString();
-    mcs_LOG_INFO(g_logger) << "\n";
+    MCS_LOG_INFO(g_logger) << "broadcast addr: " << addr->broadcastAddress(64)->toString();
+    MCS_LOG_INFO(g_logger) << "network addr: " << addr->networkAddress(64)->toString();
+    MCS_LOG_INFO(g_logger) << "subnet mask addr: " << addr->subnetMask(64)->toString();
+    MCS_LOG_INFO(g_logger) << "\n";
 }
 
 /**
  * @brief Unix套接字解析
  */
 void test_unix() {
-    mcs_LOG_INFO(g_logger) << "test_unix";
+    MCS_LOG_INFO(g_logger) << "test_unix";
     
     auto addr = mcs::UnixAddress("/tmp/test_unix.sock");
-    mcs_LOG_INFO(g_logger) << "addr: " << addr.toString();
-    mcs_LOG_INFO(g_logger) << "family: " << family2str(addr.getFamily());  
-    mcs_LOG_INFO(g_logger) << "path: " << addr.getPath(); 
-    mcs_LOG_INFO(g_logger) << "addr length: " << addr.getAddrLen(); 
+    MCS_LOG_INFO(g_logger) << "addr: " << addr.toString();
+    MCS_LOG_INFO(g_logger) << "family: " << family2str(addr.getFamily());  
+    MCS_LOG_INFO(g_logger) << "path: " << addr.getPath(); 
+    MCS_LOG_INFO(g_logger) << "addr length: " << addr.getAddrLen(); 
 
-    mcs_LOG_INFO(g_logger) << "\n";
+    MCS_LOG_INFO(g_logger) << "\n";
 }
 
 int main(int argc, char *argv[]) {

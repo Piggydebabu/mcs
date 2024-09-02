@@ -2,8 +2,8 @@
  * @file stream.h
  * @brief 流接口
  */
-#ifndef __mcs_STREAM_H__
-#define __mcs_STREAM_H__
+#ifndef __MCS_STREAM_H__
+#define __MCS_STREAM_H__
 
 #include <memory>
 #include "bytearray.h"

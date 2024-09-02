@@ -21,7 +21,7 @@
 
 namespace mcs {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 pid_t GetThreadId() {
     return syscall(SYS_gettid);
@@ -72,7 +72,7 @@ void Backtrace(std::vector<std::string> &bt, int size, int skip) {
 
     char **strings = backtrace_symbols(array, s);
     if (strings == NULL) {
-        mcs_LOG_ERROR(g_logger) << "backtrace_synbols error";
+        MCS_LOG_ERROR(g_logger) << "backtrace_synbols error";
         return;
     }
 

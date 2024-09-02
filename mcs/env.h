@@ -3,8 +3,8 @@
  * @brief 环境变量管理
  */
 
-#ifndef __mcs_ENV_H__
-#define __mcs_ENV_H__
+#ifndef __MCS_ENV_H__
+#define __MCS_ENV_H__
 
 #include "singleton.h"
 #include "mutex.h"

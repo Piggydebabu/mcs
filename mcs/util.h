@@ -5,8 +5,8 @@
  * @date 2024-06-08
  */
 
-#ifndef __mcs_UTIL_H__
-#define __mcs_UTIL_H__
+#ifndef __MCS_UTIL_H__
+#define __MCS_UTIL_H__
 
 #include <sys/types.h>
 #include <stdint.h>
@@ -289,4 +289,4 @@ public:
 
 } // namespace mcs
 
-#endif // __mcs_UTIL_H__
+#endif // __MCS_UTIL_H__

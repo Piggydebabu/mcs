@@ -7,7 +7,7 @@
 #include "mcs/mcs.h"
 #include <iostream>
 
-static mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+static mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 void test_pool() {
     mcs::http::HttpConnectionPool::ptr pool(new mcs::http::HttpConnectionPool(
@@ -24,14 +24,14 @@ void test_pool() {
 void run() {
     mcs::Address::ptr addr = mcs::Address::LookupAnyIPAddress("www.midlane.top:80");
     if (!addr) {
-        mcs_LOG_INFO(g_logger) << "get addr error";
+        MCS_LOG_INFO(g_logger) << "get addr error";
         return;
     }
 
     mcs::Socket::ptr sock = mcs::Socket::CreateTCP(addr);
     bool rt                 = sock->connect(addr);
     if (!rt) {
-        mcs_LOG_INFO(g_logger) << "connect " << *addr << " failed";
+        MCS_LOG_INFO(g_logger) << "connect " << *addr << " failed";
         return;
     }
 
@@ -49,7 +49,7 @@ void run() {
     auto rsp = conn->recvResponse();
 
     if (!rsp) {
-        mcs_LOG_INFO(g_logger) << "recv response error";
+        MCS_LOG_INFO(g_logger) << "recv response error";
         return;
     }
     std::cout << "rsp:" << std::endl

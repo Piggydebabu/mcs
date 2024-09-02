@@ -7,7 +7,7 @@
 
 #include "mcs/mcs.h"
 
-mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 mcs::ConfigVar<int>::ptr g_int = 
     mcs::Config::Lookup("global.int", (int)8080, "global int");
@@ -106,21 +106,21 @@ void test_class() {
 
     if(!g_person->getListener(id)) {
         id = g_person->addListener([](const Person &old_value, const Person &new_value){
-            mcs_LOG_INFO(g_logger) << "g_person value change, old value:" << old_value.toString()
+            MCS_LOG_INFO(g_logger) << "g_person value change, old value:" << old_value.toString()
                 << ", new value:" << new_value.toString();
         });
     }
 
-    mcs_LOG_INFO(g_logger) << g_person->getValue().toString();
+    MCS_LOG_INFO(g_logger) << g_person->getValue().toString();
 
     for (const auto &i : g_person_map->getValue()) {
-        mcs_LOG_INFO(g_logger) << i.first << ":" << i.second.toString();
+        MCS_LOG_INFO(g_logger) << i.first << ":" << i.second.toString();
     }
 
     for(const auto &i : g_person_vec_map->getValue()) {
-        mcs_LOG_INFO(g_logger) << i.first;
+        MCS_LOG_INFO(g_logger) << i.first;
         for(const auto &j : i.second) {
-            mcs_LOG_INFO(g_logger) << j.toString();
+            MCS_LOG_INFO(g_logger) << j.toString();
         }
     }
 }
@@ -150,15 +150,15 @@ std::string formatMap(const T &m) {
 }
 
 void test_config() {
-    mcs_LOG_INFO(g_logger) << "g_int value: " << g_int->getValue();
-    mcs_LOG_INFO(g_logger) << "g_float value: " << g_float->getValue();
-    mcs_LOG_INFO(g_logger) << "g_string value: " << g_string->getValue();
-    mcs_LOG_INFO(g_logger) << "g_int_vec value: " << formatArray<std::vector<int>>(g_int_vec->getValue());
-    mcs_LOG_INFO(g_logger) << "g_int_list value: " << formatArray<std::list<int>>(g_int_list->getValue());
-    mcs_LOG_INFO(g_logger) << "g_int_set value: " << formatArray<std::set<int>>(g_int_set->getValue());
-    mcs_LOG_INFO(g_logger) << "g_int_unordered_set value: " << formatArray<std::unordered_set<int>>(g_int_unordered_set->getValue());
-    mcs_LOG_INFO(g_logger) << "g_int_map value: " << formatMap<std::map<std::string, int>>(g_map_string2int->getValue());
-    mcs_LOG_INFO(g_logger) << "g_int_unordered_map value: " << formatMap<std::unordered_map<std::string, int>>(g_unordered_map_string2int->getValue());
+    MCS_LOG_INFO(g_logger) << "g_int value: " << g_int->getValue();
+    MCS_LOG_INFO(g_logger) << "g_float value: " << g_float->getValue();
+    MCS_LOG_INFO(g_logger) << "g_string value: " << g_string->getValue();
+    MCS_LOG_INFO(g_logger) << "g_int_vec value: " << formatArray<std::vector<int>>(g_int_vec->getValue());
+    MCS_LOG_INFO(g_logger) << "g_int_list value: " << formatArray<std::list<int>>(g_int_list->getValue());
+    MCS_LOG_INFO(g_logger) << "g_int_set value: " << formatArray<std::set<int>>(g_int_set->getValue());
+    MCS_LOG_INFO(g_logger) << "g_int_unordered_set value: " << formatArray<std::unordered_set<int>>(g_int_unordered_set->getValue());
+    MCS_LOG_INFO(g_logger) << "g_int_map value: " << formatMap<std::map<std::string, int>>(g_map_string2int->getValue());
+    MCS_LOG_INFO(g_logger) << "g_int_unordered_map value: " << formatMap<std::unordered_map<std::string, int>>(g_unordered_map_string2int->getValue());
 
     // 自定义配置项
     test_class();
@@ -167,23 +167,23 @@ void test_config() {
 int main(int argc, char *argv[]) {
     // 设置g_int的配置变更回调函数
     g_int->addListener([](const int &old_value, const int &new_value) {
-        mcs_LOG_INFO(g_logger) << "g_int value changed, old_value: " << old_value << ", new_value: " << new_value;
+        MCS_LOG_INFO(g_logger) << "g_int value changed, old_value: " << old_value << ", new_value: " << new_value;
     });
 
-    mcs_LOG_INFO(g_logger) << "before============================";
+    MCS_LOG_INFO(g_logger) << "before============================";
 
     test_config();
 
     // 从配置文件中加载配置，由于更新了配置，会触发配置项的配置变更回调函数
     mcs::EnvMgr::GetInstance()->init(argc, argv);
     mcs::Config::LoadFromConfDir("conf");
-    mcs_LOG_INFO(g_logger) << "after============================";
+    MCS_LOG_INFO(g_logger) << "after============================";
     
     test_config();
 
     // 遍历所有配置
     mcs::Config::Visit([](mcs::ConfigVarBase::ptr var){
-        mcs_LOG_INFO(g_logger) << "name=" << var->getName()
+        MCS_LOG_INFO(g_logger) << "name=" << var->getName()
             << " description=" << var->getDescription()
             << " typename=" << var->getTypeName()
             << " value=" << var->toString();

@@ -13,39 +13,39 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 
-mcs::Logger::ptr g_logger = mcs_LOG_ROOT();
+mcs::Logger::ptr g_logger = MCS_LOG_ROOT();
 
 int sockfd;
 void watch_io_read();
 
 // 写事件回调，只执行一次，用于判断非阻塞套接字connect成功
 void do_io_write() {
-    mcs_LOG_INFO(g_logger) << "write callback";
+    MCS_LOG_INFO(g_logger) << "write callback";
     int so_err;
     socklen_t len = size_t(so_err);
     getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &so_err, &len);
     if(so_err) {
-        mcs_LOG_INFO(g_logger) << "connect fail";
+        MCS_LOG_INFO(g_logger) << "connect fail";
         return;
     } 
-    mcs_LOG_INFO(g_logger) << "connect success";
+    MCS_LOG_INFO(g_logger) << "connect success";
 }
 
 // 读事件回调，每次读取之后如果套接字未关闭，需要重新添加
 void do_io_read() {
-    mcs_LOG_INFO(g_logger) << "read callback";
+    MCS_LOG_INFO(g_logger) << "read callback";
     char buf[1024] = {0};
     int readlen = 0;
     readlen = read(sockfd, buf, sizeof(buf));
     if(readlen > 0) {
         buf[readlen] = '\0';
-        mcs_LOG_INFO(g_logger) << "read " << readlen << " bytes, read: " << buf;
+        MCS_LOG_INFO(g_logger) << "read " << readlen << " bytes, read: " << buf;
     } else if(readlen == 0) {
-        mcs_LOG_INFO(g_logger) << "peer closed";
+        MCS_LOG_INFO(g_logger) << "peer closed";
         close(sockfd);
         return;
     } else {
-        mcs_LOG_ERROR(g_logger) << "err, errno=" << errno << ", errstr=" << strerror(errno);
+        MCS_LOG_ERROR(g_logger) << "err, errno=" << errno << ", errstr=" << strerror(errno);
         close(sockfd);
         return;
     }
@@ -54,13 +54,13 @@ void do_io_read() {
 }
 
 void watch_io_read() {
-    mcs_LOG_INFO(g_logger) << "watch_io_read";
+    MCS_LOG_INFO(g_logger) << "watch_io_read";
     mcs::IOManager::GetThis()->addEvent(sockfd, mcs::IOManager::READ, do_io_read);
 }
 
 void test_io() {
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    mcs_ASSERT(sockfd > 0);
+    MCS_ASSERT(sockfd > 0);
     fcntl(sockfd, F_SETFL, O_NONBLOCK);
 
     sockaddr_in servaddr;
@@ -72,17 +72,17 @@ void test_io() {
     int rt = connect(sockfd, (const sockaddr*)&servaddr, sizeof(servaddr));
     if(rt != 0) {
         if(errno == EINPROGRESS) {
-            mcs_LOG_INFO(g_logger) << "EINPROGRESS";
+            MCS_LOG_INFO(g_logger) << "EINPROGRESS";
             // 注册写事件回调，只用于判断connect是否成功
             // 非阻塞的TCP套接字connect一般无法立即建立连接，要通过套接字可写来判断connect是否已经成功
             mcs::IOManager::GetThis()->addEvent(sockfd, mcs::IOManager::WRITE, do_io_write);
             // 注册读事件回调，注意事件是一次性的
             mcs::IOManager::GetThis()->addEvent(sockfd, mcs::IOManager::READ, do_io_read);
         } else {
-            mcs_LOG_ERROR(g_logger) << "connect error, errno:" << errno << ", errstr:" << strerror(errno);
+            MCS_LOG_ERROR(g_logger) << "connect error, errno:" << errno << ", errstr:" << strerror(errno);
         }
     } else {
-        mcs_LOG_ERROR(g_logger) << "else, errno:" << errno << ", errstr:" << strerror(errno);
+        MCS_LOG_ERROR(g_logger) << "else, errno:" << errno << ", errstr:" << strerror(errno);
     }
 }
 

@@ -2,11 +2,11 @@
  * @file endian.h
  * @brief 字节序操作函数(大端/小端)
  */
-#ifndef __mcs_ENDIAN_H__
-#define __mcs_ENDIAN_H__
+#ifndef __MCS_ENDIAN_H__
+#define __MCS_ENDIAN_H__
 
-#define mcs_LITTLE_ENDIAN 1
-#define mcs_BIG_ENDIAN 2
+#define MCS_LITTLE_ENDIAN 1
+#define MCS_BIG_ENDIAN 2
 
 #include <byteswap.h>
 #include <stdint.h>
@@ -41,12 +41,12 @@ byteswap(T value) {
 }
 
 #if BYTE_ORDER == BIG_ENDIAN
-#define mcs_BYTE_ORDER mcs_BIG_ENDIAN
+#define MCS_BYTE_ORDER MCS_BIG_ENDIAN
 #else
-#define mcs_BYTE_ORDER mcs_LITTLE_ENDIAN
+#define MCS_BYTE_ORDER MCS_LITTLE_ENDIAN
 #endif
 
-#if mcs_BYTE_ORDER == mcs_BIG_ENDIAN
+#if MCS_BYTE_ORDER == MCS_BIG_ENDIAN
 
 /**
  * @brief 只在小端机器上执行byteswap, 在大端机器上什么都不做

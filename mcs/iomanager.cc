@@ -12,7 +12,7 @@
 
 namespace mcs {
 
-static mcs::Logger::ptr g_logger = mcs_LOG_NAME("system");
+static mcs::Logger::ptr g_logger = MCS_LOG_NAME("system");
 
 enum EpollCtlOp {
 };
@@ -68,7 +68,7 @@ IOManager::FdContext::EventContext &IOManager::FdContext::getEventContext(IOMana
     case IOManager::WRITE:
         return write;
     default:
-        mcs_ASSERT2(false, "getContext");
+        MCS_ASSERT2(false, "getContext");
     }
     throw std::invalid_argument("getContext invalid event");
 }
@@ -81,7 +81,7 @@ void IOManager::FdContext::resetEventContext(EventContext &ctx) {
 
 void IOManager::FdContext::triggerEvent(IOManager::Event event) {
     // 待触发的事件必须已被注册过
-    mcs_ASSERT(events & event);
+    MCS_ASSERT(events & event);
     /**
      *  清除该事件，表示不再关注该事件了
      * 也就是说，注册的IO事件是一次性的，如果想持续关注某个socket fd的读写事件，那么每次触发事件之后都要重新添加
@@ -101,10 +101,10 @@ void IOManager::FdContext::triggerEvent(IOManager::Event event) {
 IOManager::IOManager(size_t threads, bool use_caller, const std::string &name)
     : Scheduler(threads, use_caller, name) {
     m_epfd = epoll_create(5000);
-    mcs_ASSERT(m_epfd > 0);
+    MCS_ASSERT(m_epfd > 0);
 
     int rt = pipe(m_tickleFds);
-    mcs_ASSERT(!rt);
+    MCS_ASSERT(!rt);
 
     // 关注pipe读句柄的可读事件，用于tickle协程
     epoll_event event;
@@ -114,10 +114,10 @@ IOManager::IOManager(size_t threads, bool use_caller, const std::string &name)
 
     // 非阻塞方式，配合边缘触发
     rt = fcntl(m_tickleFds[0], F_SETFL, O_NONBLOCK);
-    mcs_ASSERT(!rt);
+    MCS_ASSERT(!rt);
 
     rt = epoll_ctl(m_epfd, EPOLL_CTL_ADD, m_tickleFds[0], &event);
-    mcs_ASSERT(!rt);
+    MCS_ASSERT(!rt);
 
     contextResize(32);
 
@@ -164,11 +164,11 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
 
     // 同一个fd不允许重复添加相同的事件
     FdContext::MutexType::Lock lock2(fd_ctx->mutex);
-    if (mcs_UNLIKELY(fd_ctx->events & event)) {
-        mcs_LOG_ERROR(g_logger) << "addEvent assert fd=" << fd
+    if (MCS_UNLIKELY(fd_ctx->events & event)) {
+        MCS_LOG_ERROR(g_logger) << "addEvent assert fd=" << fd
                                   << " event=" << (EPOLL_EVENTS)event
                                   << " fd_ctx.event=" << (EPOLL_EVENTS)fd_ctx->events;
-        mcs_ASSERT(!(fd_ctx->events & event));
+        MCS_ASSERT(!(fd_ctx->events & event));
     }
 
     // 将新的事件加入epoll_wait，使用epoll_event的私有指针存储FdContext的位置
@@ -179,7 +179,7 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
 
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if (rt) {
-        mcs_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
+        MCS_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
                                   << (EpollCtlOp)op << ", " << fd << ", " << (EPOLL_EVENTS)epevent.events << "):"
                                   << rt << " (" << errno << ") (" << strerror(errno) << ") fd_ctx->events="
                                   << (EPOLL_EVENTS)fd_ctx->events;
@@ -192,7 +192,7 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
     // 找到这个fd的event事件对应的EventContext，对其中的scheduler, cb, fiber进行赋值
     fd_ctx->events                     = (Event)(fd_ctx->events | event);
     FdContext::EventContext &event_ctx = fd_ctx->getEventContext(event);
-    mcs_ASSERT(!event_ctx.scheduler && !event_ctx.fiber && !event_ctx.cb);
+    MCS_ASSERT(!event_ctx.scheduler && !event_ctx.fiber && !event_ctx.cb);
 
     // 赋值scheduler和回调函数，如果回调函数为空，则把当前协程当成回调执行体
     event_ctx.scheduler = Scheduler::GetThis();
@@ -200,7 +200,7 @@ int IOManager::addEvent(int fd, Event event, std::function<void()> cb) {
         event_ctx.cb.swap(cb);
     } else {
         event_ctx.fiber = Fiber::GetThis();
-        mcs_ASSERT2(event_ctx.fiber->getState() == Fiber::RUNNING, "state=" << event_ctx.fiber->getState());
+        MCS_ASSERT2(event_ctx.fiber->getState() == Fiber::RUNNING, "state=" << event_ctx.fiber->getState());
     }
     return 0;
 }
@@ -215,7 +215,7 @@ bool IOManager::delEvent(int fd, Event event) {
     lock.unlock();
 
     FdContext::MutexType::Lock lock2(fd_ctx->mutex);
-    if (mcs_UNLIKELY(!(fd_ctx->events & event))) {
+    if (MCS_UNLIKELY(!(fd_ctx->events & event))) {
         return false;
     }
 
@@ -228,7 +228,7 @@ bool IOManager::delEvent(int fd, Event event) {
 
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if (rt) {
-        mcs_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
+        MCS_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
                                   << (EpollCtlOp)op << ", " << fd << ", " << (EPOLL_EVENTS)epevent.events << "):"
                                   << rt << " (" << errno << ") (" << strerror(errno) << ")";
         return false;
@@ -253,7 +253,7 @@ bool IOManager::cancelEvent(int fd, Event event) {
     lock.unlock();
 
     FdContext::MutexType::Lock lock2(fd_ctx->mutex);
-    if (mcs_UNLIKELY(!(fd_ctx->events & event))) {
+    if (MCS_UNLIKELY(!(fd_ctx->events & event))) {
         return false;
     }
 
@@ -266,7 +266,7 @@ bool IOManager::cancelEvent(int fd, Event event) {
 
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if (rt) {
-        mcs_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
+        MCS_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
                                   << (EpollCtlOp)op << ", " << fd << ", " << (EPOLL_EVENTS)epevent.events << "):"
                                   << rt << " (" << errno << ") (" << strerror(errno) << ")";
         return false;
@@ -301,7 +301,7 @@ bool IOManager::cancelAll(int fd) {
 
     int rt = epoll_ctl(m_epfd, op, fd, &epevent);
     if (rt) {
-        mcs_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
+        MCS_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
                                   << (EpollCtlOp)op << ", " << fd << ", " << (EPOLL_EVENTS)epevent.events << "):"
                                   << rt << " (" << errno << ") (" << strerror(errno) << ")";
         return false;
@@ -317,7 +317,7 @@ bool IOManager::cancelAll(int fd) {
         --m_pendingEventCount;
     }
 
-    mcs_ASSERT(fd_ctx->events == 0);
+    MCS_ASSERT(fd_ctx->events == 0);
     return true;
 }
 
@@ -331,12 +331,12 @@ IOManager *IOManager::GetThis() {
  * 如果没有调度线程处理于idle状态，那也就没必要发通知了
  */
 void IOManager::tickle() {
-    mcs_LOG_DEBUG(g_logger) << "tickle";
+    MCS_LOG_DEBUG(g_logger) << "tickle";
     if(!hasIdleThreads()) {
         return;
     }
     int rt = write(m_tickleFds[1], "T", 1);
-    mcs_ASSERT(rt == 1);
+    MCS_ASSERT(rt == 1);
 }
 
 bool IOManager::stopping() {
@@ -357,7 +357,7 @@ bool IOManager::stopping(uint64_t &timeout) {
  * IO事件对应的回调函数
  */
 void IOManager::idle() {
-    mcs_LOG_DEBUG(g_logger) << "idle";
+    MCS_LOG_DEBUG(g_logger) << "idle";
 
     // 一次epoll_wait最多检测256个就绪事件，如果就绪事件超过了这个数，那么会在下轮epoll_wati继续处理
     const uint64_t MAX_EVNETS = 256;
@@ -369,8 +369,8 @@ void IOManager::idle() {
     while (true) {
         // 获取下一个定时器的超时时间，顺便判断调度器是否停止
         uint64_t next_timeout = 0;
-        if( mcs_UNLIKELY(stopping(next_timeout))) {
-            mcs_LOG_DEBUG(g_logger) << "name=" << getName() << "idle stopping exit";
+        if( MCS_UNLIKELY(stopping(next_timeout))) {
+            MCS_LOG_DEBUG(g_logger) << "name=" << getName() << "idle stopping exit";
             break;
         }
 
@@ -442,7 +442,7 @@ void IOManager::idle() {
 
             int rt2 = epoll_ctl(m_epfd, op, fd_ctx->fd, &event);
             if (rt2) {
-                mcs_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
+                MCS_LOG_ERROR(g_logger) << "epoll_ctl(" << m_epfd << ", "
                                           << (EpollCtlOp)op << ", " << fd_ctx->fd << ", " << (EPOLL_EVENTS)event.events << "):"
                                           << rt2 << " (" << errno << ") (" << strerror(errno) << ")";
                 continue;

@@ -8,8 +8,8 @@
 
  */
 
-#ifndef __mcs_mcs_H__
-#define __mcs_mcs_H__
+#ifndef __MCS_MCS_H__
+#define __MCS_MCS_H__
 
 #include "log.h"
 #include "util.h"

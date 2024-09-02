@@ -3,8 +3,8 @@
  * @brief HTTP客户端类
  */
 
-#ifndef __mcs_HTTP_CONNECTION_H__
-#define __mcs_HTTP_CONNECTION_H__
+#ifndef __MCS_HTTP_CONNECTION_H__
+#define __MCS_HTTP_CONNECTION_H__
 
 #include "../streams/socket_stream.h"
 #include "http.h"

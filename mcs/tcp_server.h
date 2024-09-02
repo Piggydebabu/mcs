@@ -2,8 +2,8 @@
  * @file tcp_server.h
  * @brief TCP服务器的封装
  */
-#ifndef __mcs_TCP_SERVER_H__
-#define __mcs_TCP_SERVER_H__
+#ifndef __MCS_TCP_SERVER_H__
+#define __MCS_TCP_SERVER_H__
 
 #include <memory>
 #include <functional>
